@@ -1,4 +1,4 @@
-Terrain = require '../index'
+Terrain = require '../index.coffee'
 
 describe 'terragen', ->
   it 'should generate map', ->
@@ -7,6 +7,6 @@ describe 'terragen', ->
     map = terrain.to2dArray()
     for row in map
       xs = row
-        .map (t) -> if t.val > 1 then '#' else ' '
+        .map (t) -> if 0 < t.val < 5 then '#' else ' '
         .join ''
       console.log xs
