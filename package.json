@@ -1,6 +1,6 @@
 {
   "name": "mz-terrain",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "terrain generator",
   "main": "index",
   "scripts": {
