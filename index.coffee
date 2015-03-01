@@ -1,3 +1,6 @@
+flatten = require 'lodash.flatten'
+
+module.exports =
 class Terrain
   average = (values) ->
     valid = values.filter (val) -> val isnt -1
@@ -10,12 +13,19 @@ class Terrain
     @map = new Float32Array(@size * @size)
 
   get: (x, y) ->
-    if x < 0 or x > this.max or y < 0 or y > this.max
+    if x < 0 or x > @max or y < 0 or y > @max
       return -1
-    return this.map[x + this.size * y]
+    return @map[x + @size * y]
 
   set: (x, y, val) ->
-    this.map[x + this.size * y] = val
+    @map[x + @size * y] = val
+
+  generate: () ->
+    @set(0, 0, @max);
+    @set(@max, 0, @max / 2);
+    @set(@max, @max, 0);
+    @set(0, @max, @max / 2);
+    @_divide(@max);
 
   _divide: (size) ->
     [x, y] = []
@@ -23,18 +33,17 @@ class Terrain
     scale = @roughness * size
     if half < 1 then return
 
-    `
-    for (y = half; y < this.max; y += size) {
-      for (x = half; x < this.max; x += size) {
-        this._square(x, y, half, Math.random() * scale * 2 - scale);
-      }
-    }
-    for (y = 0; y <= this.max; y += half) {
-      for (x = (y + half) % size; x <= this.max; x += size) {
-        this._diamond(x, y, half, Math.random() * scale * 2 - scale);
-      }
-    }
-    `
+    y = half
+    while (y+=size) < @max
+      x = half
+      while (x+=size) < @max
+        @_square(x, y, half, Math.random() * scale * 2 - scale);
+
+    y = 0
+    while (y+=size) < @max
+      x = (y + half) % size
+      while (x+=size) < @max
+        @_diamond(x, y, half, Math.random() * scale * 2 - scale);
     @_divide(size / 2)
 
   _square: (x, y, size, offset) ->
@@ -55,13 +64,9 @@ class Terrain
     ])
     @set(x, y, ave + offset)
 
-  generate: () ->
-    @set(0, 0, @max);
-    @set(this.max, 0, @max / 2);
-    @set(this.max, @max, 0);
-    @set(0, this.max, @max / 2);
-    @_divide(this.max);
+  to2dArray: ->
+    for y in [0...@size]
+      for x in [0...@size]
+        { x, y, val: @get(x, y) }
 
-terrain = new Terrain(3, 2)
-terrain.generate()
-console.log terrain.map
+  toArray: -> flatten @to2dArray()
