@@ -1,4 +1,4 @@
-# Terrain
+# mz-terrain
 
 Simple terrain generator by [Diamond-square algorithm](http://en.wikipedia.org/wiki/Diamond-square_algorithm "Diamond-square algorithm - Wikipedia, the free encyclopedia")
 
@@ -7,11 +7,11 @@ It's just rewrite by coffeescript, [Realistic terrain in 130 lines](http://www.p
 ## How to use
 
 ```
-npm install mizchi/terrain
+npm install mz-terrain
 ```
 
 ```coffee
-Terrain = require 'terrain'
+Terrain = require 'mz-terrain'
 terrain = new Terrain(7, 2)
 terrain.generate()
 map = terrain.to2dArray()
