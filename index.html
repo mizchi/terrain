@@ -716,6 +716,127 @@ const CATEGORIES = [
       { name: "arena_ratio", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
     ]},
   ]},
+  { name: "Puzzle", label: "Puzzle / Progression (パズル・進行)", algorithms: [
+    { id: 99, name: "Sokoban Layout", params: [
+      { name: "num_rooms", min: 2, max: 12, default: 6, step: 1 },
+      { name: "blocks_per_room", min: 1, max: 6, default: 3, step: 1 },
+    ]},
+    { id: 100, name: "One-Way Gate", params: [
+      { name: "num_rooms", min: 4, max: 20, default: 10, step: 1 },
+      { name: "branch_factor", min: 1, max: 4, default: 2, step: 1 },
+    ]},
+    { id: 101, name: "Teleporter Maze", params: [
+      { name: "num_clusters", min: 2, max: 8, default: 4, step: 1 },
+      { name: "teleporters_per_cluster", min: 1, max: 4, default: 2, step: 1 },
+    ]},
+    { id: 102, name: "Lock Cascade", params: [
+      { name: "chain_length", min: 2, max: 10, default: 6, step: 1 },
+      { name: "side_room_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+    { id: 103, name: "Gravity Puzzle", params: [
+      { name: "num_platforms", min: 4, max: 20, default: 10, step: 1 },
+      { name: "inversion_y", min: 0.2, max: 0.8, default: 0.5, step: 0.05 },
+    ]},
+    { id: 104, name: "Mirror Dungeon", params: [
+      { name: "num_rooms", min: 2, max: 10, default: 6, step: 1 },
+      { name: "corruption", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
+  ]},
+  { name: "Biome", label: "Biome (複合地形)", algorithms: [
+    { id: 93, name: "Continent", params: [
+      { name: "land_ratio", min: 0.2, max: 0.8, default: 0.5, step: 0.05 },
+      { name: "num_biomes", min: 2, max: 8, default: 4, step: 1 },
+    ]},
+    { id: 94, name: "Dungeon Ecosystem", params: [
+      { name: "num_zones", min: 2, max: 6, default: 3, step: 1 },
+      { name: "zone_size", min: 4, max: 15, default: 8, step: 1 },
+    ]},
+    { id: 95, name: "Seasonal Forest", params: [
+      { name: "density_min", min: 0, max: 0.5, default: 0.1, step: 0.05 },
+      { name: "density_max", min: 0.3, max: 1.0, default: 0.7, step: 0.05 },
+      { name: "num_clearings", min: 1, max: 10, default: 5, step: 1 },
+    ]},
+    { id: 96, name: "Swamp Labyrinth", params: [
+      { name: "water_ratio", min: 0.2, max: 0.7, default: 0.4, step: 0.05 },
+      { name: "path_count", min: 1, max: 6, default: 3, step: 1 },
+    ]},
+    { id: 97, name: "Desert Oasis", params: [
+      { name: "num_oases", min: 1, max: 10, default: 5, step: 1 },
+      { name: "dune_density", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+    ]},
+    { id: 98, name: "Tundra Outpost", params: [
+      { name: "num_outposts", min: 2, max: 10, default: 6, step: 1 },
+      { name: "tunnel_chance", min: 0.1, max: 1.0, default: 0.5, step: 0.05 },
+    ]},
+  ]},
+  { name: "Hex+", label: "Hex+ (六角追加)", algorithms: [
+    { id: 105, name: "Hex River Delta", params: [
+      { name: "cols", min: 10, max: 40, default: 25, step: 1 },
+      { name: "rows", min: 10, max: 30, default: 20, step: 1 },
+      { name: "num_sources", min: 1, max: 6, default: 3, step: 1 },
+      { name: "branch_chance", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
+    ]},
+    { id: 106, name: "Hex Fortress", params: [
+      { name: "cols", min: 10, max: 40, default: 25, step: 1 },
+      { name: "rows", min: 10, max: 30, default: 20, step: 1 },
+      { name: "num_walls", min: 1, max: 5, default: 3, step: 1 },
+      { name: "gate_count", min: 1, max: 4, default: 2, step: 1 },
+    ]},
+    { id: 107, name: "Hex Biome", params: [
+      { name: "cols", min: 10, max: 40, default: 25, step: 1 },
+      { name: "rows", min: 10, max: 30, default: 20, step: 1 },
+      { name: "num_regions", min: 3, max: 12, default: 6, step: 1 },
+      { name: "road_chance", min: 0.1, max: 1.0, default: 0.5, step: 0.05 },
+    ]},
+    { id: 108, name: "Hex Snowflake", params: [
+      { name: "cols", min: 15, max: 50, default: 30, step: 1 },
+      { name: "rows", min: 15, max: 40, default: 25, step: 1 },
+      { name: "depth", min: 1, max: 6, default: 4, step: 1 },
+      { name: "branch_ratio", min: 0.3, max: 0.9, default: 0.6, step: 0.05 },
+    ]},
+  ]},
+  { name: "3D+", label: "3D+ (多層追加)", algorithms: [
+    { id: 109, name: "Underwater Base", params: [
+      { name: "depth", min: 2, max: 6, default: 4, step: 1 },
+      { name: "room_density", min: 0.2, max: 0.7, default: 0.4, step: 0.05 },
+    ]},
+    { id: 110, name: "Tree Roots", params: [
+      { name: "depth", min: 2, max: 6, default: 4, step: 1 },
+      { name: "branch_chance", min: 0.1, max: 0.7, default: 0.4, step: 0.05 },
+    ]},
+    { id: 111, name: "Ant Nest 3D", params: [
+      { name: "depth", min: 2, max: 6, default: 4, step: 1 },
+      { name: "num_entrances", min: 1, max: 6, default: 3, step: 1 },
+      { name: "chamber_chance", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
+    ]},
+    { id: 112, name: "Space Station", params: [
+      { name: "depth", min: 2, max: 5, default: 3, step: 1 },
+      { name: "ring_width", min: 1, max: 5, default: 3, step: 1 },
+      { name: "num_spokes", min: 3, max: 8, default: 6, step: 1 },
+    ]},
+  ]},
+  { name: "Quarter+", label: "Quarter View+ (QV追加)", algorithms: [
+    { id: 113, name: "Aqueduct", params: [
+      { name: "max_height", min: 4, max: 12, default: 8, step: 1 },
+      { name: "num_arches", min: 3, max: 10, default: 6, step: 1 },
+      { name: "terrain_roughness", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
+    ]},
+    { id: 114, name: "Treehouse Village", params: [
+      { name: "max_height", min: 4, max: 12, default: 8, step: 1 },
+      { name: "num_trees", min: 3, max: 15, default: 8, step: 1 },
+      { name: "bridge_chance", min: 0.1, max: 1.0, default: 0.5, step: 0.05 },
+    ]},
+    { id: 115, name: "Mineshaft Elevator", params: [
+      { name: "max_height", min: 4, max: 12, default: 8, step: 1 },
+      { name: "num_levels", min: 2, max: 6, default: 4, step: 1 },
+      { name: "tunnel_count", min: 2, max: 8, default: 4, step: 1 },
+    ]},
+    { id: 116, name: "Glacier", params: [
+      { name: "max_height", min: 4, max: 12, default: 8, step: 1 },
+      { name: "num_crevasses", min: 2, max: 10, default: 5, step: 1 },
+      { name: "cave_chance", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
+    ]},
+  ]},
 ];
 
 // Build flat lookup for dispatch

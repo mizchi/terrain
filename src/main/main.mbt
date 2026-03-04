@@ -408,4 +408,105 @@ fn main {
   let rng = @types.make_rng(seed)
   let am = @amphitheater.generate(@amphitheater.AmphitheaterConfig::default(), rng)
   run_algorithm("Amphitheater", am.grid.to_grid2d(), am.rooms.length())
+  // === Biome ===
+  // 94. Continent
+  let rng = @types.make_rng(seed)
+  let cont = @continent.generate(@continent.ContinentConfig::default(), rng)
+  run_algorithm("Continent", cont.grid, cont.rooms.length())
+  // 95. Ecosystem
+  let rng = @types.make_rng(seed)
+  let eco = @ecosystem.generate(@ecosystem.EcosystemConfig::default(), rng)
+  run_algorithm("Ecosystem", eco.grid, eco.rooms.length())
+  // 96. Seasonal Forest
+  let rng = @types.make_rng(seed)
+  let sf = @seasonal_forest.generate(@seasonal_forest.SeasonalForestConfig::default(), rng)
+  run_algorithm("Seasonal Forest", sf.grid, sf.rooms.length())
+  // 97. Swamp
+  let rng = @types.make_rng(seed)
+  let swp = @swamp.generate(@swamp.SwampConfig::default(), rng)
+  run_algorithm("Swamp", swp.grid, swp.rooms.length())
+  // 98. Desert Oasis
+  let rng = @types.make_rng(seed)
+  let doa = @desert_oasis.generate(@desert_oasis.DesertOasisConfig::default(), rng)
+  run_algorithm("Desert Oasis", doa.grid, doa.rooms.length())
+  // 99. Tundra
+  let rng = @types.make_rng(seed)
+  let tun = @tundra.generate(@tundra.TundraConfig::default(), rng)
+  run_algorithm("Tundra", tun.grid, tun.rooms.length())
+  // === Puzzle ===
+  // 100. Sokoban
+  let rng = @types.make_rng(seed)
+  let sok = @sokoban.generate(@sokoban.SokobanConfig::default(), rng)
+  run_algorithm("Sokoban", sok.grid, sok.rooms.length())
+  // 101. One-Way Gate
+  let rng = @types.make_rng(seed)
+  let owg = @oneway_gate.generate(@oneway_gate.OnewayGateConfig::default(), rng)
+  run_algorithm("One-Way Gate", owg.grid, owg.rooms.length())
+  // 102. Teleporter Maze
+  let rng = @types.make_rng(seed)
+  let tel = @teleporter.generate(@teleporter.TeleporterConfig::default(), rng)
+  run_algorithm("Teleporter Maze", tel.grid, tel.rooms.length())
+  // 103. Lock Cascade
+  let rng = @types.make_rng(seed)
+  let lck = @lock_cascade.generate(@lock_cascade.LockCascadeConfig::default(), rng)
+  run_algorithm("Lock Cascade", lck.grid, lck.rooms.length())
+  // 104. Gravity Puzzle
+  let rng = @types.make_rng(seed)
+  let gpz = @gravity_puzzle.generate(@gravity_puzzle.GravityPuzzleConfig::default(), rng)
+  run_algorithm("Gravity Puzzle", gpz.grid, gpz.rooms.length())
+  // 105. Mirror Dungeon
+  let rng = @types.make_rng(seed)
+  let mir = @mirror_dungeon.generate(@mirror_dungeon.MirrorDungeonConfig::default(), rng)
+  run_algorithm("Mirror Dungeon", mir.grid, mir.rooms.length())
+  // === Hex Add ===
+  // 106. Hex River Delta
+  let rng = @types.make_rng(seed)
+  let hrd = @hex_river_delta.generate(@hex_river_delta.HexRiverDeltaConfig::default(), rng)
+  run_algorithm("Hex River Delta", hrd.grid.to_grid2d(2), hrd.rooms.length())
+  // 107. Hex Fortress
+  let rng = @types.make_rng(seed)
+  let hft = @hex_fortress.generate(@hex_fortress.HexFortressConfig::default(), rng)
+  run_algorithm("Hex Fortress", hft.grid.to_grid2d(2), hft.rooms.length())
+  // 108. Hex Biome
+  let rng = @types.make_rng(seed)
+  let hbi = @hex_biome.generate(@hex_biome.HexBiomeConfig::default(), rng)
+  run_algorithm("Hex Biome", hbi.grid.to_grid2d(2), hbi.rooms.length())
+  // 109. Hex Snowflake
+  let rng = @types.make_rng(seed)
+  let hsf = @hex_snowflake.generate(@hex_snowflake.HexSnowflakeConfig::default(), rng)
+  run_algorithm("Hex Snowflake", hsf.grid.to_grid2d(2), hsf.rooms.length())
+  // === 3D Add ===
+  // 110. Underwater Base
+  let rng = @types.make_rng(seed)
+  let ub = @underwater_base.generate(@underwater_base.UnderwaterBaseConfig::default(), rng)
+  run_algorithm("Underwater Base", ub.grid.get_layer(0), ub.rooms.length())
+  // 111. Tree Roots
+  let rng = @types.make_rng(seed)
+  let tr = @tree_roots.generate(@tree_roots.TreeRootsConfig::default(), rng)
+  run_algorithm("Tree Roots", tr.grid.get_layer(0), tr.rooms.length())
+  // 112. Ant Nest 3D
+  let rng = @types.make_rng(seed)
+  let an = @ant_nest_3d.generate(@ant_nest_3d.AntNest3dConfig::default(), rng)
+  run_algorithm("Ant Nest 3D", an.grid.get_layer(0), an.rooms.length())
+  // 113. Space Station
+  let rng = @types.make_rng(seed)
+  let ss = @space_station.generate(@space_station.SpaceStationConfig::default(), rng)
+  run_algorithm("Space Station", ss.grid.get_layer(0), ss.rooms.length())
+  // === Quarter View Add ===
+  // 114. Aqueduct
+  let rng = @types.make_rng(seed)
+  let aq = @aqueduct.generate(@aqueduct.AqueductConfig::default(), rng)
+  run_algorithm("Aqueduct", aq.grid.to_grid2d(), aq.rooms.length())
+  // 115. Treehouse Village
+  let rng = @types.make_rng(seed)
+  let th = @treehouse.generate(@treehouse.TreehouseConfig::default(), rng)
+  run_algorithm("Treehouse Village", th.grid.to_grid2d(), th.rooms.length())
+  // 116. Mineshaft Elevator
+  let rng = @types.make_rng(seed)
+  let msh = @mineshaft.generate(@mineshaft.MineshaftConfig::default(), rng)
+  run_algorithm("Mineshaft Elevator", msh.grid.to_grid2d(), msh.rooms.length())
+  // 117. Glacier
+  let rng = @types.make_rng(seed)
+  let gl = @glacier.generate(@glacier.GlacierConfig::default(), rng)
+  run_algorithm("Glacier", gl.grid.to_grid2d(), gl.rooms.length())
 }

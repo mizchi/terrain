@@ -1471,6 +1471,292 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
       )
       finish_quarter(r.grid, r.rooms.length())
     }
+    93 => {
+      let r = @continent.generate(
+        {
+          width,
+          height,
+          land_ratio: p(0, 0.5),
+          num_biomes: pi(1, 4),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    94 => {
+      let r = @ecosystem.generate(
+        {
+          width,
+          height,
+          num_zones: pi(0, 3),
+          zone_size: pi(1, 8),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    95 => {
+      let r = @seasonal_forest.generate(
+        {
+          width,
+          height,
+          density_min: p(0, 0.1),
+          density_max: p(1, 0.7),
+          num_clearings: pi(2, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    96 => {
+      let r = @swamp.generate(
+        {
+          width,
+          height,
+          water_ratio: p(0, 0.4),
+          path_count: pi(1, 3),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    97 => {
+      let r = @desert_oasis.generate(
+        {
+          width,
+          height,
+          num_oases: pi(0, 5),
+          dune_density: p(1, 0.2),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    98 => {
+      let r = @tundra.generate(
+        {
+          width,
+          height,
+          num_outposts: pi(0, 6),
+          tunnel_chance: p(1, 0.5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    99 => {
+      let r = @sokoban.generate(
+        {
+          width,
+          height,
+          num_rooms: pi(0, 6),
+          blocks_per_room: pi(1, 3),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    100 => {
+      let r = @oneway_gate.generate(
+        {
+          width,
+          height,
+          num_rooms: pi(0, 10),
+          branch_factor: pi(1, 2),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    101 => {
+      let r = @teleporter.generate(
+        {
+          width,
+          height,
+          num_clusters: pi(0, 4),
+          teleporters_per_cluster: pi(1, 2),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    102 => {
+      let r = @lock_cascade.generate(
+        {
+          width,
+          height,
+          chain_length: pi(0, 6),
+          side_room_chance: p(1, 0.3),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    103 => {
+      let r = @gravity_puzzle.generate(
+        {
+          width,
+          height,
+          num_platforms: pi(0, 10),
+          inversion_y: p(1, 0.5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    104 => {
+      let r = @mirror_dungeon.generate(
+        {
+          width,
+          height,
+          num_rooms: pi(0, 6),
+          corruption: p(1, 0.15),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    // === Hex Add (105-108) ===
+    105 => {
+      let cols = pi(0, 25)
+      let rows = pi(1, 20)
+      let r = @hex_river_delta.generate(
+        { cols, rows, num_sources: pi(2, 3), branch_chance: p(3, 0.4) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    106 => {
+      let cols = pi(0, 25)
+      let rows = pi(1, 20)
+      let r = @hex_fortress.generate(
+        { cols, rows, num_walls: pi(2, 3), gate_count: pi(3, 2) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    107 => {
+      let cols = pi(0, 25)
+      let rows = pi(1, 20)
+      let r = @hex_biome.generate(
+        { cols, rows, num_regions: pi(2, 6), road_chance: p(3, 0.5) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    108 => {
+      let cols = pi(0, 30)
+      let rows = pi(1, 25)
+      let r = @hex_snowflake.generate(
+        { cols, rows, depth: pi(2, 4), branch_ratio: p(3, 0.6) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    // === 3D Add (109-112) ===
+    109 => {
+      let r = @underwater_base.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 4),
+          room_density: p(1, 0.4),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    110 => {
+      let r = @tree_roots.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 4),
+          branch_chance: p(1, 0.4),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    111 => {
+      let r = @ant_nest_3d.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 4),
+          num_entrances: pi(1, 3),
+          chamber_chance: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    112 => {
+      let r = @space_station.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          ring_width: pi(1, 3),
+          num_spokes: pi(2, 6),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    // === Quarter View Add (113-116) ===
+    113 => {
+      let r = @aqueduct.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_arches: pi(1, 6),
+          terrain_roughness: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    114 => {
+      let r = @treehouse.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_trees: pi(1, 8),
+          bridge_chance: p(2, 0.5),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    115 => {
+      let r = @mineshaft.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_levels: pi(1, 4),
+          tunnel_count: pi(2, 4),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    116 => {
+      let r = @glacier.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_crevasses: pi(1, 5),
+          cave_chance: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)
       finish(grid, 0)
