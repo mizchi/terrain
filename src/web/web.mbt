@@ -540,6 +540,190 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
       )
       finish(r.grid, r.rooms.length())
     }
+    32 => {
+      let r = @growing_tree.generate(
+        {
+          width,
+          height,
+          newest_weight: p(0, 1.0),
+          room_chance: p(1, 0.12),
+          room_min_size: pi(2, 3),
+          room_max_size: pi(3, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    33 => {
+      let r = @wilson.generate(
+        {
+          width,
+          height,
+          room_chance: p(0, 0.12),
+          room_min_size: pi(1, 3),
+          room_max_size: pi(2, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    34 => {
+      let r = @aldous_broder.generate(
+        {
+          width,
+          height,
+          room_chance: p(0, 0.12),
+          room_min_size: pi(1, 3),
+          room_max_size: pi(2, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    35 => {
+      let r = @hunt_and_kill.generate(
+        {
+          width,
+          height,
+          room_chance: p(0, 0.12),
+          room_min_size: pi(1, 3),
+          room_max_size: pi(2, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    36 => {
+      let r = @erosion.generate(
+        {
+          width,
+          height,
+          num_drops: pi(0, 500),
+          erosion_strength: p(1, 0.1),
+          deposition_rate: p(2, 0.05),
+          threshold: p(3, 0.45),
+        },
+        rng,
+      )
+      finish(r.grid, r.rivers)
+    }
+    37 => {
+      let r = @midpoint_displacement.generate(
+        {
+          width,
+          height,
+          roughness: p(0, 0.5),
+          num_layers: pi(1, 3),
+          threshold: p(2, 0.5),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    38 => {
+      let r = @island.generate(
+        {
+          width,
+          height,
+          num_islands: pi(0, 5),
+          island_min_radius: pi(1, 3),
+          island_max_radius: pi(2, 7),
+          bridge_width: pi(3, 1),
+          fill_ratio: p(4, 0.4),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    39 => {
+      let r = @cyclic_dungeon.generate(
+        {
+          width,
+          height,
+          num_rooms: pi(0, 8),
+          num_keys: pi(1, 2),
+          cycle_chance: p(2, 0.3),
+          room_min_size: pi(3, 4),
+          room_max_size: pi(4, 7),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    40 => {
+      let r = @metroidvania.generate(
+        {
+          width,
+          height,
+          num_zones: pi(0, 4),
+          rooms_per_zone: pi(1, 4),
+          gate_chance: p(2, 0.3),
+          room_min_size: pi(3, 4),
+          room_max_size: pi(4, 8),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    41 => {
+      let r = @mission_graph.generate(
+        {
+          width,
+          height,
+          num_nodes: pi(0, 10),
+          branch_chance: p(1, 0.3),
+          lock_chance: p(2, 0.2),
+          room_min_size: pi(3, 4),
+          room_max_size: pi(4, 7),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    42 => {
+      let r = @herringbone.generate(
+        {
+          width,
+          height,
+          tile_size: pi(0, 6),
+          floor_ratio: p(1, 0.5),
+          corridor_chance: p(2, 0.3),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    43 => {
+      let r = @lsystem.generate(
+        {
+          width,
+          height,
+          iterations: pi(0, 4),
+          segment_length: pi(1, 2),
+          turn_angle: pi(2, 2),
+          room_chance: p(3, 0.15),
+          room_min_size: pi(4, 3),
+          room_max_size: pi(5, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    44 => {
+      let r = @marching_squares.generate(
+        {
+          width,
+          height,
+          initial_fill: p(0, 0.45),
+          ca_iterations: pi(1, 5),
+          birth_threshold: pi(2, 5),
+          survival_threshold: pi(3, 4),
+          smooth: pi(4, 1) != 0,
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)
       finish(grid, 0)

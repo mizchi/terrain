@@ -33,6 +33,19 @@
     "mizchi/terrain/diamond_square",
     "mizchi/terrain/space_colonization",
     "mizchi/terrain/hilbert",
-    "mizchi/terrain/prefab"
+    "mizchi/terrain/prefab",
+    "mizchi/terrain/growing_tree",
+    "mizchi/terrain/wilson",
+    "mizchi/terrain/aldous_broder",
+    "mizchi/terrain/hunt_and_kill",
+    "mizchi/terrain/erosion",
+    "mizchi/terrain/midpoint_displacement",
+    "mizchi/terrain/island",
+    "mizchi/terrain/cyclic_dungeon",
+    "mizchi/terrain/metroidvania",
+    "mizchi/terrain/mission_graph",
+    "mizchi/terrain/herringbone",
+    "mizchi/terrain/lsystem",
+    "mizchi/terrain/marching_squares"
   ]
 }

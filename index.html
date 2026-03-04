@@ -309,6 +309,86 @@ const ALGORITHMS = [
     { name: "num_prefabs", min: 3, max: 30, default: 12, step: 1 },
     { name: "max_attempts", min: 20, max: 500, default: 100, step: 20 },
   ]},
+  { id: 32, name: "Growing Tree", params: [
+    { name: "newest_weight", min: 0, max: 1, default: 1.0, step: 0.05 },
+    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+  ]},
+  { id: 33, name: "Wilson's", params: [
+    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+  ]},
+  { id: 34, name: "Aldous-Broder", params: [
+    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+  ]},
+  { id: 35, name: "Hunt and Kill", params: [
+    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+  ]},
+  { id: 36, name: "Erosion", params: [
+    { name: "num_drops", min: 100, max: 2000, default: 500, step: 100 },
+    { name: "erosion_strength", min: 0.01, max: 0.5, default: 0.1, step: 0.01 },
+    { name: "deposition_rate", min: 0.01, max: 0.3, default: 0.05, step: 0.01 },
+    { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+  ]},
+  { id: 37, name: "Midpoint Displacement", params: [
+    { name: "roughness", min: 0.1, max: 1.5, default: 0.5, step: 0.05 },
+    { name: "num_layers", min: 1, max: 8, default: 3, step: 1 },
+    { name: "threshold", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+  ]},
+  { id: 38, name: "Island/Archipelago", params: [
+    { name: "num_islands", min: 1, max: 15, default: 5, step: 1 },
+    { name: "island_min_radius", min: 1, max: 8, default: 3, step: 1 },
+    { name: "island_max_radius", min: 3, max: 15, default: 7, step: 1 },
+    { name: "bridge_width", min: 1, max: 3, default: 1, step: 1 },
+    { name: "fill_ratio", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
+  ]},
+  { id: 39, name: "Cyclic Dungeon", params: [
+    { name: "num_rooms", min: 3, max: 15, default: 8, step: 1 },
+    { name: "num_keys", min: 0, max: 5, default: 2, step: 1 },
+    { name: "cycle_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+    { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+  ]},
+  { id: 40, name: "Metroidvania", params: [
+    { name: "num_zones", min: 2, max: 8, default: 4, step: 1 },
+    { name: "rooms_per_zone", min: 2, max: 8, default: 4, step: 1 },
+    { name: "gate_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+    { name: "room_max_size", min: 4, max: 12, default: 8, step: 1 },
+  ]},
+  { id: 41, name: "Mission Graph", params: [
+    { name: "num_nodes", min: 4, max: 20, default: 10, step: 1 },
+    { name: "branch_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    { name: "lock_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
+    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+    { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+  ]},
+  { id: 42, name: "Herringbone Wang Tiles", params: [
+    { name: "tile_size", min: 3, max: 12, default: 6, step: 1 },
+    { name: "floor_ratio", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+    { name: "corridor_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+  ]},
+  { id: 43, name: "L-System", params: [
+    { name: "iterations", min: 1, max: 8, default: 4, step: 1 },
+    { name: "segment_length", min: 1, max: 5, default: 2, step: 1 },
+    { name: "turn_angle", min: 1, max: 4, default: 2, step: 1 },
+    { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+  ]},
+  { id: 44, name: "Marching Squares", params: [
+    { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+    { name: "ca_iterations", min: 1, max: 20, default: 5, step: 1 },
+    { name: "birth_threshold", min: 1, max: 8, default: 5, step: 1 },
+    { name: "survival_threshold", min: 1, max: 8, default: 4, step: 1 },
+    { name: "smooth", min: 0, max: 1, default: 1, step: 1 },
+  ]},
 ];
 
 const TILE_COLORS = [

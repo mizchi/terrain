@@ -161,4 +161,56 @@ fn main {
   let rng = @types.make_rng(seed)
   let pf = @prefab.generate(@prefab.PrefabConfig::default(), rng)
   run_algorithm("Prefab Assembly", pf.grid, pf.rooms.length())
+  // 33. Growing Tree
+  let rng = @types.make_rng(seed)
+  let gt = @growing_tree.generate(@growing_tree.GrowingTreeConfig::default(), rng)
+  run_algorithm("Growing Tree", gt.grid, gt.rooms.length())
+  // 34. Wilson's
+  let rng = @types.make_rng(seed)
+  let wl = @wilson.generate(@wilson.WilsonConfig::default(), rng)
+  run_algorithm("Wilson's", wl.grid, wl.rooms.length())
+  // 35. Aldous-Broder
+  let rng = @types.make_rng(seed)
+  let ab = @aldous_broder.generate(@aldous_broder.AldousBroderConfig::default(), rng)
+  run_algorithm("Aldous-Broder", ab.grid, ab.rooms.length())
+  // 36. Hunt and Kill
+  let rng = @types.make_rng(seed)
+  let hk = @hunt_and_kill.generate(@hunt_and_kill.HuntAndKillConfig::default(), rng)
+  run_algorithm("Hunt and Kill", hk.grid, hk.rooms.length())
+  // 37. Erosion
+  let rng = @types.make_rng(seed)
+  let er = @erosion.generate(@erosion.ErosionConfig::default(), rng)
+  run_algorithm("Erosion", er.grid, er.rivers)
+  // 38. Midpoint Displacement
+  let rng = @types.make_rng(seed)
+  let md = @midpoint_displacement.generate(@midpoint_displacement.MidpointDisplacementConfig::default(), rng)
+  run_algorithm("Midpoint Displacement", md.grid, md.open_cells)
+  // 39. Island/Archipelago
+  let rng = @types.make_rng(seed)
+  let is_ = @island.generate(@island.IslandConfig::default(), rng)
+  run_algorithm("Island/Archipelago", is_.grid, is_.rooms.length())
+  // 40. Cyclic Dungeon
+  let rng = @types.make_rng(seed)
+  let cd = @cyclic_dungeon.generate(@cyclic_dungeon.CyclicDungeonConfig::default(), rng)
+  run_algorithm("Cyclic Dungeon", cd.grid, cd.rooms.length())
+  // 41. Metroidvania
+  let rng = @types.make_rng(seed)
+  let mv = @metroidvania.generate(@metroidvania.MetroidvaniaConfig::default(), rng)
+  run_algorithm("Metroidvania", mv.grid, mv.rooms.length())
+  // 42. Mission Graph
+  let rng = @types.make_rng(seed)
+  let mg = @mission_graph.generate(@mission_graph.MissionGraphConfig::default(), rng)
+  run_algorithm("Mission Graph", mg.grid, mg.rooms.length())
+  // 43. Herringbone Wang Tiles
+  let rng = @types.make_rng(seed)
+  let hb2 = @herringbone.generate(@herringbone.HerringboneConfig::default(), rng)
+  run_algorithm("Herringbone Wang Tiles", hb2.grid, hb2.rooms.length())
+  // 44. L-System
+  let rng = @types.make_rng(seed)
+  let ls = @lsystem.generate(@lsystem.LsystemConfig::default(), rng)
+  run_algorithm("L-System", ls.grid, ls.rooms.length())
+  // 45. Marching Squares
+  let rng = @types.make_rng(seed)
+  let ms = @marching_squares.generate(@marching_squares.MarchingSquaresConfig::default(), rng)
+  run_algorithm("Marching Squares", ms.grid, ms.open_cells)
 }
