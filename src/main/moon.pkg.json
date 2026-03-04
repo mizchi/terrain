@@ -70,6 +70,24 @@
     "mizchi/terrain/isaac",
     "mizchi/terrain/dead_cells",
     "mizchi/terrain/penrose",
-    "mizchi/terrain/delaunay"
+    "mizchi/terrain/delaunay",
+    "mizchi/terrain/hex_maze",
+    "mizchi/terrain/hex_ca",
+    "mizchi/terrain/hex_voronoi",
+    "mizchi/terrain/hex_wfc",
+    "mizchi/terrain/hex_spiral",
+    "mizchi/terrain/hex_territory",
+    "mizchi/terrain/multifloor_bsp",
+    "mizchi/terrain/drunkard_3d",
+    "mizchi/terrain/cellular_3d",
+    "mizchi/terrain/vertical_shaft",
+    "mizchi/terrain/layered_caves",
+    "mizchi/terrain/maze_3d",
+    "mizchi/terrain/iso_city",
+    "mizchi/terrain/cliff_dungeon",
+    "mizchi/terrain/layered_plateau",
+    "mizchi/terrain/castle_gen",
+    "mizchi/terrain/terraced_mines",
+    "mizchi/terrain/floating_islands"
   ]
 }

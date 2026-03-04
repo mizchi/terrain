@@ -17,6 +17,22 @@ extern "js" fn js_get_param(index : Int, default_val : Double) -> Double =
   #| (i, d) => { const p = globalThis.__terrain_params; return (p && i < p.length) ? p[i] : d; }
 
 ///|
+extern "js" fn js_set_render_mode(mode : String) -> Unit =
+  #| (m) => { globalThis.__terrain_render_mode = m; }
+
+///|
+extern "js" fn js_set_hex_info(cols : Int, rows : Int, orientation : Int) -> Unit =
+  #| (c, r, o) => { globalThis.__terrain_hex_info = { cols: c, rows: r, orientation: o }; }
+
+///|
+extern "js" fn js_set_3d_info(width : Int, height : Int, depth : Int) -> Unit =
+  #| (w, h, d) => { globalThis.__terrain_3d_info = { width: w, height: h, depth: d }; }
+
+///|
+extern "js" fn js_set_heights(csv : String, max_h : Int) -> Unit =
+  #| (csv, m) => { globalThis.__terrain_heights = csv; globalThis.__terrain_max_height = m; }
+
+///|
 fn tile_to_int(tile : @types.Tile) -> Int {
   match tile {
     Floor => 0
@@ -73,10 +89,78 @@ fn pi(index : Int, default_val : Int) -> Int {
 
 ///|
 fn finish(grid : @types.Grid2D, room_count : Int) -> String {
+  js_set_render_mode("grid2d")
   js_set_cells(grid_to_cells_csv(grid))
   let metrics = @types.compute_metrics(grid, room_count)
   js_set_metrics(metrics_to_json(metrics))
   grid.to_ascii()
+}
+
+///|
+fn finish_hex(hex : @types.HexGrid, room_count : Int) -> String {
+  js_set_render_mode("hex")
+  js_set_hex_info(hex.cols, hex.rows, hex.orientation)
+  js_set_cells(grid_to_cells_csv_raw(hex.cells))
+  let grid2d = hex.to_grid2d(2)
+  let metrics = @types.compute_metrics(grid2d, room_count)
+  js_set_metrics(metrics_to_json(metrics))
+  hex.to_ascii()
+}
+
+///|
+fn finish_3d(grid3d : @types.Grid3D, room_count : Int) -> String {
+  js_set_render_mode("grid3d")
+  js_set_3d_info(grid3d.width, grid3d.height, grid3d.depth)
+  // Send all layers as CSV separated by semicolons
+  let buf = StringBuilder::new()
+  for z in 0..<grid3d.depth {
+    if z > 0 {
+      buf.write_char(';')
+    }
+    let layer = grid3d.get_layer(z)
+    for i in 0..<layer.cells.length() {
+      if i > 0 {
+        buf.write_char(',')
+      }
+      buf.write_string(tile_to_int(layer.cells[i]).to_string())
+    }
+  }
+  js_set_cells(buf.to_string())
+  let layer0 = grid3d.get_layer(0)
+  let metrics = @types.compute_metrics(layer0, room_count)
+  js_set_metrics(metrics_to_json(metrics))
+  grid3d.to_ascii(0)
+}
+
+///|
+fn finish_quarter(hg : @types.HeightGrid, room_count : Int) -> String {
+  js_set_render_mode("quarter")
+  // Send heights as CSV
+  let hbuf = StringBuilder::new()
+  for i in 0..<hg.heights.length() {
+    if i > 0 {
+      hbuf.write_char(',')
+    }
+    hbuf.write_string(hg.heights[i].to_string())
+  }
+  js_set_heights(hbuf.to_string(), hg.max_height)
+  js_set_cells(grid_to_cells_csv_raw(hg.cells))
+  let grid2d = hg.to_grid2d()
+  let metrics = @types.compute_metrics(grid2d, room_count)
+  js_set_metrics(metrics_to_json(metrics))
+  hg.to_ascii()
+}
+
+///|
+fn grid_to_cells_csv_raw(cells : Array[@types.Tile]) -> String {
+  let buf = StringBuilder::new()
+  for i in 0..<cells.length() {
+    if i > 0 {
+      buf.write_char(',')
+    }
+    buf.write_string(tile_to_int(cells[i]).to_string())
+  }
+  buf.to_string()
 }
 
 ///|
@@ -1086,6 +1170,226 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
         rng,
       )
       finish(r.grid, r.rooms.length())
+    }
+    // === Hex (69-74) ===
+    69 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_maze.generate(
+        { cols, rows, room_chance: p(2, 0.15) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    70 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_ca.generate(
+        {
+          cols,
+          rows,
+          initial_fill: p(2, 0.45),
+          iterations: pi(3, 5),
+          birth: pi(4, 4),
+          survival: pi(5, 3),
+        },
+        rng,
+      )
+      finish_hex(r.grid, r.open_cells)
+    }
+    71 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_voronoi.generate(
+        { cols, rows, num_seeds: pi(2, 6), shrink: pi(3, 1) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    72 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_wfc.generate(
+        { cols, rows, max_retries: pi(2, 10) },
+        rng,
+      )
+      finish_hex(r.grid, 0)
+    }
+    73 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_spiral.generate(
+        { cols, rows, spacing: pi(2, 2), room_chance: p(3, 0.2) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    74 => {
+      let cols = pi(0, 20)
+      let rows = pi(1, 15)
+      let r = @hex_territory.generate(
+        { cols, rows, num_factions: pi(2, 4), aggression: p(3, 0.3) },
+        rng,
+      )
+      finish_hex(r.grid, r.rooms.length())
+    }
+    // === 3D (75-80) ===
+    75 => {
+      let r = @multifloor_bsp.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          min_room_size: pi(1, 4),
+          stair_count: pi(2, 3),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    76 => {
+      let r = @drunkard_3d.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          fill_ratio: p(1, 0.35),
+          climb_chance: p(2, 0.15),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.steps_taken)
+    }
+    77 => {
+      let r = @cellular_3d.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          initial_fill: p(1, 0.45),
+          iterations: pi(2, 4),
+          birth: pi(3, 14),
+          survival: pi(4, 13),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.open_cells)
+    }
+    78 => {
+      let r = @vertical_shaft.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          num_shafts: pi(1, 3),
+          room_chance: p(2, 0.5),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    79 => {
+      let r = @layered_caves.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          connectivity: p(1, 0.3),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.open_cells)
+    }
+    80 => {
+      let r = @maze_3d.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          up_chance: p(1, 0.2),
+        },
+        rng,
+      )
+      finish_3d(r.grid, r.rooms.length())
+    }
+    // === Quarter View (81-86) ===
+    81 => {
+      let r = @iso_city.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          building_density: p(1, 0.7),
+          street_width: pi(2, 2),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    82 => {
+      let r = @cliff_dungeon.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 6),
+          cliff_chance: p(1, 0.4),
+          room_count: pi(2, 8),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    83 => {
+      let r = @layered_plateau.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 6),
+          num_plateaus: pi(1, 4),
+          erosion: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    84 => {
+      let r = @castle_gen.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          tower_count: pi(1, 4),
+          wall_height: pi(2, 3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    85 => {
+      let r = @terraced_mines.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 6),
+          num_terraces: pi(1, 4),
+          ore_chance: p(2, 0.1),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    86 => {
+      let r = @floating_islands.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_islands: pi(1, 5),
+          bridge_chance: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
     }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)

@@ -75,6 +75,13 @@
           <span class="val" id="height-val">20</span>
         </div>
       </div>
+      <div class="control-group" id="layer-control" style="display:none">
+        <div class="slider-row">
+          <label>Layer</label>
+          <input type="range" id="layer-slider" min="0" max="0" value="0" step="1">
+          <span class="val" id="layer-val">0/0</span>
+        </div>
+      </div>
       <div class="control-group">
         <label>Parameters</label>
         <div id="params-container"></div>
@@ -576,6 +583,108 @@ const CATEGORIES = [
       { name: "extra_edge_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
     ]},
   ]},
+  { name: "Hex", label: "Hex (六角グリッド)", algorithms: [
+    { id: 69, name: "Hex Maze", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
+    { id: 70, name: "Hex CA", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "iterations", min: 1, max: 20, default: 5, step: 1 },
+      { name: "birth", min: 1, max: 6, default: 4, step: 1 },
+      { name: "survival", min: 1, max: 6, default: 3, step: 1 },
+    ]},
+    { id: 71, name: "Hex Voronoi", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "num_seeds", min: 2, max: 15, default: 6, step: 1 },
+      { name: "shrink", min: 0, max: 3, default: 1, step: 1 },
+    ]},
+    { id: 72, name: "Hex WFC", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "max_retries", min: 1, max: 50, default: 10, step: 1 },
+    ]},
+    { id: 73, name: "Hex Spiral", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "spacing", min: 1, max: 5, default: 2, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+    ]},
+    { id: 74, name: "Hex Territory", params: [
+      { name: "cols", min: 8, max: 40, default: 20, step: 1 },
+      { name: "rows", min: 8, max: 30, default: 15, step: 1 },
+      { name: "num_factions", min: 2, max: 8, default: 4, step: 1 },
+      { name: "aggression", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+  ]},
+  { name: "3D", label: "3D (多層ダンジョン)", algorithms: [
+    { id: 75, name: "Multi-Floor BSP", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "min_room_size", min: 2, max: 10, default: 4, step: 1 },
+      { name: "stair_count", min: 1, max: 8, default: 3, step: 1 },
+    ]},
+    { id: 76, name: "3D Drunkard", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "fill_ratio", min: 0.1, max: 0.6, default: 0.35, step: 0.05 },
+      { name: "climb_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
+    { id: 77, name: "3D CA", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "iterations", min: 1, max: 20, default: 4, step: 1 },
+      { name: "birth", min: 5, max: 20, default: 14, step: 1 },
+      { name: "survival", min: 5, max: 20, default: 13, step: 1 },
+    ]},
+    { id: 78, name: "Vertical Shaft", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "num_shafts", min: 1, max: 8, default: 3, step: 1 },
+      { name: "room_chance", min: 0.1, max: 1, default: 0.5, step: 0.1 },
+    ]},
+    { id: 79, name: "Layered Caves", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "connectivity", min: 0.1, max: 1, default: 0.3, step: 0.05 },
+    ]},
+    { id: 80, name: "3D Maze", params: [
+      { name: "depth", min: 2, max: 8, default: 3, step: 1 },
+      { name: "up_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+    ]},
+  ]},
+  { name: "Quarter", label: "Quarter View (クォータービュー)", algorithms: [
+    { id: 81, name: "Isometric City", params: [
+      { name: "max_height", min: 2, max: 12, default: 8, step: 1 },
+      { name: "building_density", min: 0.2, max: 1, default: 0.7, step: 0.05 },
+      { name: "street_width", min: 1, max: 4, default: 2, step: 1 },
+    ]},
+    { id: 82, name: "Cliff Dungeon", params: [
+      { name: "max_height", min: 2, max: 10, default: 6, step: 1 },
+      { name: "cliff_chance", min: 0, max: 1, default: 0.4, step: 0.05 },
+      { name: "room_count", min: 3, max: 15, default: 8, step: 1 },
+    ]},
+    { id: 83, name: "Layered Plateau", params: [
+      { name: "max_height", min: 2, max: 10, default: 6, step: 1 },
+      { name: "num_plateaus", min: 2, max: 8, default: 4, step: 1 },
+      { name: "erosion", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+    { id: 84, name: "Castle Generator", params: [
+      { name: "max_height", min: 2, max: 12, default: 8, step: 1 },
+      { name: "tower_count", min: 2, max: 8, default: 4, step: 1 },
+      { name: "wall_height", min: 1, max: 6, default: 3, step: 1 },
+    ]},
+    { id: 85, name: "Terraced Mines", params: [
+      { name: "max_height", min: 2, max: 10, default: 6, step: 1 },
+      { name: "num_terraces", min: 2, max: 8, default: 4, step: 1 },
+      { name: "ore_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
+    ]},
+    { id: 86, name: "Floating Islands", params: [
+      { name: "max_height", min: 2, max: 12, default: 8, step: 1 },
+      { name: "num_islands", min: 2, max: 10, default: 5, step: 1 },
+      { name: "bridge_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+  ]},
 ];
 
 // Build flat lookup for dispatch
@@ -676,14 +785,28 @@ function generate() {
   }
 }
 
-// Draw canvas from cells
+// Draw canvas - dispatches based on render mode
 function drawCanvas(w, h) {
+  const mode = globalThis.__terrain_render_mode || 'grid2d';
   const cells = globalThis.__terrain_cells;
   if (!cells) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (mode === 'hex') {
+    drawHex();
+  } else if (mode === 'grid3d') {
+    drawGrid3D(w, h);
+  } else if (mode === 'quarter') {
+    drawQuarter(w, h);
+  } else {
+    drawGrid2D(w, h, cells);
+  }
+}
+
+function drawGrid2D(w, h, cells) {
   const cellsArr = cells.split(',').map(Number);
   const cellW = canvas.width / w;
   const cellH = canvas.height / h;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const tile = cellsArr[y * w + x];
@@ -691,6 +814,141 @@ function drawCanvas(w, h) {
       ctx.fillRect(x * cellW, y * cellH, cellW + 0.5, cellH + 0.5);
     }
   }
+}
+
+function drawHex() {
+  const info = globalThis.__terrain_hex_info;
+  if (!info) return;
+  const cells = globalThis.__terrain_cells;
+  const cellsArr = cells.split(',').map(Number);
+  const { cols, rows, orientation } = info;
+  // Calculate hex size to fit canvas
+  const hexW = canvas.width / (cols + 0.5);
+  const hexH = canvas.height / (rows * 0.75 + 0.25);
+  const size = Math.min(hexW, hexH) * 0.48;
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const tile = cellsArr[row * cols + col];
+      // Offset coordinates to pixel (pointy-top)
+      const x = (col + (row % 2 === 1 ? 0.5 : 0)) * size * Math.sqrt(3) + size;
+      const y = row * size * 1.5 + size;
+      ctx.fillStyle = TILE_COLORS[tile] || '#ff00ff';
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = Math.PI / 180 * (60 * i - 30);
+        const vx = x + size * 0.9 * Math.cos(angle);
+        const vy = y + size * 0.9 * Math.sin(angle);
+        if (i === 0) ctx.moveTo(vx, vy);
+        else ctx.lineTo(vx, vy);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#111';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    }
+  }
+}
+
+function drawGrid3D(w, h) {
+  const info = globalThis.__terrain_3d_info;
+  if (!info) return;
+  const cells = globalThis.__terrain_cells;
+  const layersData = cells.split(';');
+  const { depth } = info;
+  const layerSlider = document.getElementById('layer-slider');
+  const layerVal = document.getElementById('layer-val');
+  const layerControl = document.getElementById('layer-control');
+  layerControl.style.display = 'block';
+  layerSlider.max = depth - 1;
+  const z = parseInt(layerSlider.value);
+  layerVal.textContent = z + '/' + (depth - 1);
+
+  if (z >= layersData.length) return;
+  const cellsArr = layersData[z].split(',').map(Number);
+  const cellW = canvas.width / w;
+  const cellH = canvas.height / h;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const tile = cellsArr[y * w + x];
+      ctx.fillStyle = TILE_COLORS[tile] || '#ff00ff';
+      ctx.fillRect(x * cellW, y * cellH, cellW + 0.5, cellH + 0.5);
+    }
+  }
+  // Layer label
+  ctx.fillStyle = '#fff';
+  ctx.font = '14px monospace';
+  ctx.fillText('Layer ' + z + ' / ' + (depth - 1), 8, 20);
+}
+
+function drawQuarter(w, h) {
+  const cells = globalThis.__terrain_cells;
+  const heightsCsv = globalThis.__terrain_heights;
+  if (!cells || !heightsCsv) return;
+  const cellsArr = cells.split(',').map(Number);
+  const heights = heightsCsv.split(',').map(Number);
+  const maxH = globalThis.__terrain_max_height || 5;
+
+  // Isometric projection parameters
+  const tileW = Math.min(canvas.width / (w + h) * 1.6, 20);
+  const tileH = tileW * 0.5;
+  const elevH = tileH * 0.6;
+  const ox = canvas.width / 2;
+  const oy = 40;
+
+  // Back-to-front drawing order
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const tile = cellsArr[y * w + x];
+      const elev = heights[y * w + x] || 0;
+      // Iso transform
+      const sx = ox + (x - y) * tileW * 0.5;
+      const sy = oy + (x + y) * tileH * 0.5 - elev * elevH;
+      const baseColor = TILE_COLORS[tile] || '#ff00ff';
+
+      // Top face
+      ctx.fillStyle = baseColor;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + tileW * 0.5, sy + tileH * 0.5);
+      ctx.lineTo(sx, sy + tileH);
+      ctx.lineTo(sx - tileW * 0.5, sy + tileH * 0.5);
+      ctx.closePath();
+      ctx.fill();
+
+      if (elev > 0) {
+        // Left face (darker)
+        ctx.fillStyle = darkenColor(baseColor, 0.6);
+        ctx.beginPath();
+        ctx.moveTo(sx - tileW * 0.5, sy + tileH * 0.5);
+        ctx.lineTo(sx, sy + tileH);
+        ctx.lineTo(sx, sy + tileH + elev * elevH);
+        ctx.lineTo(sx - tileW * 0.5, sy + tileH * 0.5 + elev * elevH);
+        ctx.closePath();
+        ctx.fill();
+
+        // Right face (medium)
+        ctx.fillStyle = darkenColor(baseColor, 0.8);
+        ctx.beginPath();
+        ctx.moveTo(sx + tileW * 0.5, sy + tileH * 0.5);
+        ctx.lineTo(sx, sy + tileH);
+        ctx.lineTo(sx, sy + tileH + elev * elevH);
+        ctx.lineTo(sx + tileW * 0.5, sy + tileH * 0.5 + elev * elevH);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+  }
+}
+
+function darkenColor(hex, factor) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return '#' + Math.round(r*factor).toString(16).padStart(2,'0')
+            + Math.round(g*factor).toString(16).padStart(2,'0')
+            + Math.round(b*factor).toString(16).padStart(2,'0');
 }
 
 // Show metrics
@@ -728,8 +986,20 @@ tabAscii.addEventListener('click', () => {
   asciiPre.style.display = 'block';
 });
 
+// Layer slider for 3D mode
+document.getElementById('layer-slider').addEventListener('input', () => {
+  const w = parseInt(widthSlider.value);
+  const h = parseInt(heightSlider.value);
+  drawCanvas(w, h);
+});
+
 // Event listeners
-algoSelect.addEventListener('change', () => { buildParams(); scheduleGenerate(); });
+algoSelect.addEventListener('change', () => {
+  document.getElementById('layer-control').style.display = 'none';
+  document.getElementById('layer-slider').value = 0;
+  buildParams();
+  scheduleGenerate();
+});
 seedInput.addEventListener('change', scheduleGenerate);
 seedInput.addEventListener('input', scheduleGenerate);
 widthSlider.addEventListener('input', () => { widthVal.textContent = widthSlider.value; scheduleGenerate(); });

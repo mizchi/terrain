@@ -309,4 +309,79 @@ fn main {
   let rng = @types.make_rng(seed)
   let dl = @delaunay.generate(@delaunay.DelaunayConfig::default(), rng)
   run_algorithm("Delaunay + Gabriel", dl.grid, dl.rooms.length())
+  // === Hex ===
+  // 70. Hex Maze
+  let rng = @types.make_rng(seed)
+  let hm = @hex_maze.generate(@hex_maze.HexMazeConfig::default(), rng)
+  run_algorithm("Hex Maze", hm.grid.to_grid2d(2), hm.rooms.length())
+  // 71. Hex CA
+  let rng = @types.make_rng(seed)
+  let hca = @hex_ca.generate(@hex_ca.HexCaConfig::default(), rng)
+  run_algorithm("Hex CA", hca.grid.to_grid2d(2), hca.open_cells)
+  // 72. Hex Voronoi
+  let rng = @types.make_rng(seed)
+  let hv = @hex_voronoi.generate(@hex_voronoi.HexVoronoiConfig::default(), rng)
+  run_algorithm("Hex Voronoi", hv.grid.to_grid2d(2), hv.rooms.length())
+  // 73. Hex WFC
+  let rng = @types.make_rng(seed)
+  let hw = @hex_wfc.generate(@hex_wfc.HexWfcConfig::default(), rng)
+  run_algorithm("Hex WFC", hw.grid.to_grid2d(2), 0)
+  // 74. Hex Spiral
+  let rng = @types.make_rng(seed)
+  let hs = @hex_spiral.generate(@hex_spiral.HexSpiralConfig::default(), rng)
+  run_algorithm("Hex Spiral", hs.grid.to_grid2d(2), hs.rooms.length())
+  // 75. Hex Territory
+  let rng = @types.make_rng(seed)
+  let ht = @hex_territory.generate(@hex_territory.HexTerritoryConfig::default(), rng)
+  run_algorithm("Hex Territory", ht.grid.to_grid2d(2), ht.rooms.length())
+  // === 3D ===
+  // 76. Multi-Floor BSP
+  let rng = @types.make_rng(seed)
+  let mb = @multifloor_bsp.generate(@multifloor_bsp.MultifloorBspConfig::default(), rng)
+  run_algorithm("Multi-Floor BSP", mb.grid.get_layer(0), mb.rooms.length())
+  // 77. 3D Drunkard
+  let rng = @types.make_rng(seed)
+  let d3 = @drunkard_3d.generate(@drunkard_3d.Drunkard3dConfig::default(), rng)
+  run_algorithm("3D Drunkard", d3.grid.get_layer(0), d3.steps_taken)
+  // 78. 3D CA
+  let rng = @types.make_rng(seed)
+  let c3 = @cellular_3d.generate(@cellular_3d.Cellular3dConfig::default(), rng)
+  run_algorithm("3D CA", c3.grid.get_layer(0), c3.open_cells)
+  // 79. Vertical Shaft
+  let rng = @types.make_rng(seed)
+  let vs = @vertical_shaft.generate(@vertical_shaft.VerticalShaftConfig::default(), rng)
+  run_algorithm("Vertical Shaft", vs.grid.get_layer(0), vs.rooms.length())
+  // 80. Layered Caves
+  let rng = @types.make_rng(seed)
+  let lc = @layered_caves.generate(@layered_caves.LayeredCavesConfig::default(), rng)
+  run_algorithm("Layered Caves", lc.grid.get_layer(0), lc.open_cells)
+  // 81. 3D Maze
+  let rng = @types.make_rng(seed)
+  let m3 = @maze_3d.generate(@maze_3d.Maze3dConfig::default(), rng)
+  run_algorithm("3D Maze", m3.grid.get_layer(0), m3.rooms.length())
+  // === Quarter View ===
+  // 82. Isometric City
+  let rng = @types.make_rng(seed)
+  let ic = @iso_city.generate(@iso_city.IsoCityConfig::default(), rng)
+  run_algorithm("Isometric City", ic.grid.to_grid2d(), ic.rooms.length())
+  // 83. Cliff Dungeon
+  let rng = @types.make_rng(seed)
+  let cld = @cliff_dungeon.generate(@cliff_dungeon.CliffDungeonConfig::default(), rng)
+  run_algorithm("Cliff Dungeon", cld.grid.to_grid2d(), cld.rooms.length())
+  // 84. Layered Plateau
+  let rng = @types.make_rng(seed)
+  let lp = @layered_plateau.generate(@layered_plateau.LayeredPlateauConfig::default(), rng)
+  run_algorithm("Layered Plateau", lp.grid.to_grid2d(), lp.rooms.length())
+  // 85. Castle Generator
+  let rng = @types.make_rng(seed)
+  let cg = @castle_gen.generate(@castle_gen.CastleGenConfig::default(), rng)
+  run_algorithm("Castle Generator", cg.grid.to_grid2d(), cg.rooms.length())
+  // 86. Terraced Mines
+  let rng = @types.make_rng(seed)
+  let tm = @terraced_mines.generate(@terraced_mines.TerracedMinesConfig::default(), rng)
+  run_algorithm("Terraced Mines", tm.grid.to_grid2d(), tm.rooms.length())
+  // 87. Floating Islands
+  let rng = @types.make_rng(seed)
+  let fi = @floating_islands.generate(@floating_islands.FloatingIslandsConfig::default(), rng)
+  run_algorithm("Floating Islands", fi.grid.to_grid2d(), fi.rooms.length())
 }
