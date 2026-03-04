@@ -49,18 +49,6 @@ fn tile_to_int(tile : @types.Tile) -> Int {
 }
 
 ///|
-fn grid_to_cells_csv(grid : @types.Grid2D) -> String {
-  let buf = StringBuilder::new()
-  for i in 0..<grid.cells.length() {
-    if i > 0 {
-      buf.write_char(',')
-    }
-    buf.write_string(tile_to_int(grid.cells[i]).to_string())
-  }
-  buf.to_string()
-}
-
-///|
 fn metrics_to_json(metrics : @types.GridMetrics) -> String {
   let buf = StringBuilder::new()
   buf.write_string("{\"open_ratio\":")
@@ -90,7 +78,7 @@ fn pi(index : Int, default_val : Int) -> Int {
 ///|
 fn finish(grid : @types.Grid2D, room_count : Int) -> String {
   js_set_render_mode("grid2d")
-  js_set_cells(grid_to_cells_csv(grid))
+  js_set_cells(grid_to_cells_csv_raw(grid.cells))
   let metrics = @types.compute_metrics(grid, room_count)
   js_set_metrics(metrics_to_json(metrics))
   grid.to_ascii()

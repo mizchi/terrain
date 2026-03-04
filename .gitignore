@@ -2,3 +2,8 @@ target/
 _build/
 .mooncakes/
 web.js
+js/dist/
+js/node_modules/
+js/terrain.js
+js/terrain.d.ts
+js/moonbit.d.ts

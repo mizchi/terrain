@@ -1,107 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terrain Playground</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-  h1 { font-size: 1.4rem; margin-bottom: 12px; color: #e94560; }
-  .layout { display: flex; gap: 16px; }
-  .controls { width: 320px; flex-shrink: 0; }
-  .output { flex: 1; min-width: 0; }
-  .control-group { margin-bottom: 12px; }
-  .control-group label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 4px; }
-  select, input[type=number] {
-    width: 100%; padding: 6px 8px; background: #16213e; border: 1px solid #333; color: #e0e0e0;
-    border-radius: 4px; font-size: 0.85rem;
-  }
-  .row { display: flex; gap: 8px; align-items: center; }
-  .row > * { flex: 1; }
-  .row > button { flex: 0 0 auto; }
-  button {
-    padding: 6px 12px; background: #e94560; border: none; color: #fff; border-radius: 4px;
-    cursor: pointer; font-size: 0.8rem;
-  }
-  button:hover { background: #c73e54; }
-  .slider-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .slider-row label { width: 140px; font-size: 0.75rem; color: #aaa; flex-shrink: 0; text-align: right; }
-  .slider-row input[type=range] { flex: 1; accent-color: #e94560; }
-  .slider-row .val { width: 50px; font-size: 0.75rem; color: #e94560; text-align: right; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 8px; }
-  .tabs button { background: #16213e; color: #aaa; border: 1px solid #333; }
-  .tabs button.active { background: #e94560; color: #fff; border-color: #e94560; }
-  canvas { display: block; width: 100%; background: #000; border-radius: 4px; image-rendering: pixelated; }
-  pre#ascii {
-    background: #0a0a1a; padding: 8px; border-radius: 4px; font-size: 11px; line-height: 1.2;
-    overflow: auto; white-space: pre; font-family: 'Courier New', monospace; color: #c8c8c8;
-  }
-  .metrics { font-size: 0.75rem; color: #888; margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
-  .metrics span { color: #e94560; }
-  #params-container { max-height: 400px; overflow-y: auto; }
-  @media (max-width: 768px) {
-    .layout { flex-direction: column; }
-    .controls { width: 100%; }
-  }
-</style>
-</head>
-<body>
-<div class="container">
-  <h1>Terrain Playground <a href="https://github.com/mizchi/terrain" style="font-size:0.6em;color:#aaa;text-decoration:none;margin-left:8px;" target="_blank">GitHub</a></h1>
-  <div class="layout">
-    <div class="controls">
-      <div class="control-group">
-        <label>Algorithm</label>
-        <select id="algo"></select>
-      </div>
-      <div class="control-group">
-        <label>Seed</label>
-        <div class="row">
-          <input type="number" id="seed" value="42" min="0" max="999999">
-          <button id="rand-seed">Random</button>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="slider-row">
-          <label>Width</label>
-          <input type="range" id="width" min="10" max="100" value="40">
-          <span class="val" id="width-val">40</span>
-        </div>
-        <div class="slider-row">
-          <label>Height</label>
-          <input type="range" id="height" min="10" max="60" value="20">
-          <span class="val" id="height-val">20</span>
-        </div>
-      </div>
-      <div class="control-group" id="layer-control" style="display:none">
-        <div class="slider-row">
-          <label>Layer</label>
-          <input type="range" id="layer-slider" min="0" max="0" value="0" step="1">
-          <span class="val" id="layer-val">0/0</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label>Parameters</label>
-        <div id="params-container"></div>
-      </div>
-    </div>
-    <div class="output">
-      <div class="tabs">
-        <button id="tab-canvas" class="active">Canvas</button>
-        <button id="tab-ascii">ASCII</button>
-      </div>
-      <canvas id="canvas" width="800" height="400"></canvas>
-      <pre id="ascii" style="display:none"></pre>
-      <div class="metrics" id="metrics"></div>
-    </div>
-  </div>
-</div>
+import type { AlgorithmDef } from "./types.js";
 
-<script>
-const CATEGORIES = [
-  { name: "Maze", label: "Maze (Maze Generation)", algorithms: [
+const CATEGORIES: { name: string; algorithms: Omit<AlgorithmDef, "category">[] }[] = [
+  { name: "Maze", algorithms: [
     { id: 10, name: "Maze (DFS)", params: [
       { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
       { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
@@ -163,7 +63,7 @@ const CATEGORIES = [
       { name: "symmetry", min: 0, max: 1, default: 0, step: 1 },
     ]},
   ]},
-  { name: "Room", label: "Room Placement", algorithms: [
+  { name: "Room", algorithms: [
     { id: 2, name: "BSP Tree", params: [
       { name: "min_room_size", min: 2, max: 10, default: 4, step: 1 },
       { name: "max_depth", min: 1, max: 8, default: 4, step: 1 },
@@ -238,7 +138,7 @@ const CATEGORIES = [
       { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
     ]},
   ]},
-  { name: "Cave", label: "Cave / Organic", algorithms: [
+  { name: "Cave", algorithms: [
     { id: 1, name: "Cellular Automata", params: [
       { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
       { name: "iterations", min: 1, max: 20, default: 5, step: 1 },
@@ -345,7 +245,7 @@ const CATEGORIES = [
       { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
     ]},
   ]},
-  { name: "Graph", label: "Graph / Structure", algorithms: [
+  { name: "Graph", algorithms: [
     { id: 4, name: "Graph Grammar", params: [
       { name: "num_rooms", min: 3, max: 15, default: 6, step: 1 },
       { name: "num_locks", min: 0, max: 5, default: 2, step: 1 },
@@ -421,7 +321,7 @@ const CATEGORIES = [
       { name: "biome_max_size", min: 5, max: 15, default: 10, step: 1 },
     ]},
   ]},
-  { name: "Curve", label: "Space Filling Curves", algorithms: [
+  { name: "Curve", algorithms: [
     { id: 30, name: "Hilbert Curve", params: [
       { name: "order", min: 1, max: 6, default: 4, step: 1 },
       { name: "corridor_width", min: 1, max: 4, default: 1, step: 1 },
@@ -452,7 +352,7 @@ const CATEGORIES = [
       { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
     ]},
   ]},
-  { name: "Terrain", label: "Terrain Generation", algorithms: [
+  { name: "Terrain", algorithms: [
     { id: 28, name: "Diamond-Square", params: [
       { name: "roughness", min: 0.1, max: 1.5, default: 0.6, step: 0.05 },
       { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
@@ -485,7 +385,7 @@ const CATEGORIES = [
       { name: "min_crystal_size", min: 2, max: 10, default: 4, step: 1 },
     ]},
   ]},
-  { name: "Pattern", label: "Pattern / Tiling", algorithms: [
+  { name: "Pattern", algorithms: [
     { id: 5, name: "WFC", params: [
       { name: "max_retries", min: 1, max: 50, default: 10, step: 1 },
     ]},
@@ -533,7 +433,7 @@ const CATEGORIES = [
       { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
     ]},
   ]},
-  { name: "Hybrid", label: "Hybrid", algorithms: [
+  { name: "Hybrid", algorithms: [
     { id: 9, name: "Voronoi Region", params: [
       { name: "num_seeds", min: 3, max: 20, default: 8, step: 1 },
       { name: "shrink", min: 0, max: 3, default: 1, step: 1 },
@@ -583,7 +483,7 @@ const CATEGORIES = [
       { name: "extra_edge_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
     ]},
   ]},
-  { name: "Hex", label: "Hex Grid", algorithms: [
+  { name: "Hex", algorithms: [
     { id: 69, name: "Hex Maze", params: [
       { name: "cols", min: 8, max: 40, default: 20, step: 1 },
       { name: "rows", min: 8, max: 30, default: 15, step: 1 },
@@ -621,7 +521,7 @@ const CATEGORIES = [
       { name: "aggression", min: 0, max: 1, default: 0.3, step: 0.05 },
     ]},
   ]},
-  { name: "3D", label: "3D Multi-Floor", algorithms: [
+  { name: "3D", algorithms: [
     { id: 75, name: "Multi-Floor BSP", params: [
       { name: "depth", min: 2, max: 8, default: 3, step: 1 },
       { name: "min_room_size", min: 2, max: 10, default: 4, step: 1 },
@@ -653,7 +553,7 @@ const CATEGORIES = [
       { name: "up_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
     ]},
   ]},
-  { name: "Quarter", label: "Quarter View", algorithms: [
+  { name: "Quarter", algorithms: [
     { id: 81, name: "Isometric City", params: [
       { name: "max_height", min: 2, max: 12, default: 8, step: 1 },
       { name: "building_density", min: 0.2, max: 1, default: 0.7, step: 0.05 },
@@ -716,7 +616,7 @@ const CATEGORIES = [
       { name: "arena_ratio", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
     ]},
   ]},
-  { name: "Puzzle", label: "Puzzle / Progression", algorithms: [
+  { name: "Puzzle", algorithms: [
     { id: 99, name: "Sokoban Layout", params: [
       { name: "num_rooms", min: 2, max: 12, default: 6, step: 1 },
       { name: "blocks_per_room", min: 1, max: 6, default: 3, step: 1 },
@@ -742,7 +642,7 @@ const CATEGORIES = [
       { name: "corruption", min: 0, max: 0.5, default: 0.15, step: 0.05 },
     ]},
   ]},
-  { name: "Biome", label: "Biome", algorithms: [
+  { name: "Biome", algorithms: [
     { id: 93, name: "Continent", params: [
       { name: "land_ratio", min: 0.2, max: 0.8, default: 0.5, step: 0.05 },
       { name: "num_biomes", min: 2, max: 8, default: 4, step: 1 },
@@ -769,7 +669,7 @@ const CATEGORIES = [
       { name: "tunnel_chance", min: 0.1, max: 1.0, default: 0.5, step: 0.05 },
     ]},
   ]},
-  { name: "Hex+", label: "Hex+ (Extended)", algorithms: [
+  { name: "Hex+", algorithms: [
     { id: 105, name: "Hex River Delta", params: [
       { name: "cols", min: 10, max: 40, default: 25, step: 1 },
       { name: "rows", min: 10, max: 30, default: 20, step: 1 },
@@ -795,7 +695,7 @@ const CATEGORIES = [
       { name: "branch_ratio", min: 0.3, max: 0.9, default: 0.6, step: 0.05 },
     ]},
   ]},
-  { name: "3D+", label: "3D+ (Extended)", algorithms: [
+  { name: "3D+", algorithms: [
     { id: 109, name: "Underwater Base", params: [
       { name: "depth", min: 2, max: 6, default: 4, step: 1 },
       { name: "room_density", min: 0.2, max: 0.7, default: 0.4, step: 0.05 },
@@ -815,7 +715,7 @@ const CATEGORIES = [
       { name: "num_spokes", min: 3, max: 8, default: 6, step: 1 },
     ]},
   ]},
-  { name: "Quarter+", label: "Quarter View+ (Extended)", algorithms: [
+  { name: "Quarter+", algorithms: [
     { id: 113, name: "Aqueduct", params: [
       { name: "max_height", min: 4, max: 12, default: 8, step: 1 },
       { name: "num_arches", min: 3, max: 10, default: 6, step: 1 },
@@ -839,331 +739,6 @@ const CATEGORIES = [
   ]},
 ];
 
-// Build flat lookup for dispatch
-const ALGO_MAP = {};
-CATEGORIES.forEach(cat => cat.algorithms.forEach(a => { a.category = cat.name; ALGO_MAP[a.id] = a; }));
-
-const TILE_COLORS = [
-  '#deb887', // 0 Floor
-  '#333333', // 1 Wall
-  '#8b4513', // 2 Door
-  '#6b3410', // 3 LockedDoor
-  '#ffdd00', // 4 Key
-  '#00aa00', // 5 Start
-  '#ee0000', // 6 Goal
-  '#c0c0c0', // 7 Corridor
-  '#4466ee', // 8 Water
-  '#000000', // 9 Empty
-];
-
-const algoSelect = document.getElementById('algo');
-const seedInput = document.getElementById('seed');
-const widthSlider = document.getElementById('width');
-const heightSlider = document.getElementById('height');
-const widthVal = document.getElementById('width-val');
-const heightVal = document.getElementById('height-val');
-const paramsContainer = document.getElementById('params-container');
-const canvas = document.getElementById('canvas');
-const asciiPre = document.getElementById('ascii');
-const metricsDiv = document.getElementById('metrics');
-const tabCanvas = document.getElementById('tab-canvas');
-const tabAscii = document.getElementById('tab-ascii');
-const ctx = canvas.getContext('2d');
-
-let debounceTimer = null;
-
-// Populate algorithm dropdown with optgroups
-CATEGORIES.forEach(cat => {
-  const group = document.createElement('optgroup');
-  group.label = cat.label;
-  cat.algorithms.forEach(a => {
-    const opt = document.createElement('option');
-    opt.value = a.id;
-    opt.textContent = a.name;
-    group.appendChild(opt);
-  });
-  algoSelect.appendChild(group);
-});
-
-// Build parameter sliders for selected algorithm
-function buildParams() {
-  const algo = ALGO_MAP[algoSelect.value];
-  paramsContainer.innerHTML = '';
-  if (!algo.params.length) {
-    paramsContainer.innerHTML = '<div style="color:#666;font-size:0.75rem">No parameters</div>';
-    return;
-  }
-  algo.params.forEach((p, i) => {
-    const row = document.createElement('div');
-    row.className = 'slider-row';
-    const isFloat = p.step < 1;
-    row.innerHTML = `
-      <label>${p.name}</label>
-      <input type="range" data-idx="${i}" min="${p.min}" max="${p.max}" value="${p.default}" step="${p.step}">
-      <span class="val">${isFloat ? p.default.toFixed(2) : p.default}</span>
-    `;
-    const slider = row.querySelector('input');
-    const val = row.querySelector('.val');
-    slider.addEventListener('input', () => {
-      val.textContent = isFloat ? parseFloat(slider.value).toFixed(2) : slider.value;
-      scheduleGenerate();
-    });
-    paramsContainer.appendChild(row);
-  });
-}
-
-// Collect current params array
-function getParams() {
-  const sliders = paramsContainer.querySelectorAll('input[type=range]');
-  return Array.from(sliders).map(s => parseFloat(s.value));
-}
-
-// Generate dungeon
-function generate() {
-  if (!globalThis.__terrain_generate) return;
-  const algoId = parseInt(algoSelect.value);
-  const seed = parseInt(seedInput.value) || 0;
-  const w = parseInt(widthSlider.value);
-  const h = parseInt(heightSlider.value);
-  globalThis.__terrain_params = getParams();
-  try {
-    const ascii = globalThis.__terrain_generate(algoId, seed, w, h);
-    asciiPre.textContent = ascii;
-    drawCanvas(w, h);
-    showMetrics();
-  } catch (e) {
-    asciiPre.textContent = 'Error: ' + e.message;
-    console.error(e);
-  }
-}
-
-// Draw canvas - dispatches based on render mode
-function drawCanvas(w, h) {
-  const mode = globalThis.__terrain_render_mode || 'grid2d';
-  const cells = globalThis.__terrain_cells;
-  if (!cells) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (mode === 'hex') {
-    drawHex();
-  } else if (mode === 'grid3d') {
-    drawGrid3D(w, h);
-  } else if (mode === 'quarter') {
-    drawQuarter(w, h);
-  } else {
-    drawGrid2D(w, h, cells);
-  }
-}
-
-function drawGrid2D(w, h, cells) {
-  const cellsArr = cells.split(',').map(Number);
-  const cellW = canvas.width / w;
-  const cellH = canvas.height / h;
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const tile = cellsArr[y * w + x];
-      ctx.fillStyle = TILE_COLORS[tile] || '#ff00ff';
-      ctx.fillRect(x * cellW, y * cellH, cellW + 0.5, cellH + 0.5);
-    }
-  }
-}
-
-function drawHex() {
-  const info = globalThis.__terrain_hex_info;
-  if (!info) return;
-  const cells = globalThis.__terrain_cells;
-  const cellsArr = cells.split(',').map(Number);
-  const { cols, rows, orientation } = info;
-  // Calculate hex size to fit canvas
-  const hexW = canvas.width / (cols + 0.5);
-  const hexH = canvas.height / (rows * 0.75 + 0.25);
-  const size = Math.min(hexW, hexH) * 0.48;
-
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const tile = cellsArr[row * cols + col];
-      // Offset coordinates to pixel (pointy-top)
-      const x = (col + (row % 2 === 1 ? 0.5 : 0)) * size * Math.sqrt(3) + size;
-      const y = row * size * 1.5 + size;
-      ctx.fillStyle = TILE_COLORS[tile] || '#ff00ff';
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const angle = Math.PI / 180 * (60 * i - 30);
-        const vx = x + size * 0.9 * Math.cos(angle);
-        const vy = y + size * 0.9 * Math.sin(angle);
-        if (i === 0) ctx.moveTo(vx, vy);
-        else ctx.lineTo(vx, vy);
-      }
-      ctx.closePath();
-      ctx.fill();
-      ctx.strokeStyle = '#111';
-      ctx.lineWidth = 0.5;
-      ctx.stroke();
-    }
-  }
-}
-
-function drawGrid3D(w, h) {
-  const info = globalThis.__terrain_3d_info;
-  if (!info) return;
-  const cells = globalThis.__terrain_cells;
-  const layersData = cells.split(';');
-  const { depth } = info;
-  const layerSlider = document.getElementById('layer-slider');
-  const layerVal = document.getElementById('layer-val');
-  const layerControl = document.getElementById('layer-control');
-  layerControl.style.display = 'block';
-  layerSlider.max = depth - 1;
-  const z = parseInt(layerSlider.value);
-  layerVal.textContent = z + '/' + (depth - 1);
-
-  if (z >= layersData.length) return;
-  const cellsArr = layersData[z].split(',').map(Number);
-  const cellW = canvas.width / w;
-  const cellH = canvas.height / h;
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const tile = cellsArr[y * w + x];
-      ctx.fillStyle = TILE_COLORS[tile] || '#ff00ff';
-      ctx.fillRect(x * cellW, y * cellH, cellW + 0.5, cellH + 0.5);
-    }
-  }
-  // Layer label
-  ctx.fillStyle = '#fff';
-  ctx.font = '14px monospace';
-  ctx.fillText('Layer ' + z + ' / ' + (depth - 1), 8, 20);
-}
-
-function drawQuarter(w, h) {
-  const cells = globalThis.__terrain_cells;
-  const heightsCsv = globalThis.__terrain_heights;
-  if (!cells || !heightsCsv) return;
-  const cellsArr = cells.split(',').map(Number);
-  const heights = heightsCsv.split(',').map(Number);
-  const maxH = globalThis.__terrain_max_height || 5;
-
-  // Isometric projection parameters
-  const tileW = Math.min(canvas.width / (w + h) * 1.6, 20);
-  const tileH = tileW * 0.5;
-  const elevH = tileH * 0.6;
-  const ox = canvas.width / 2;
-  const oy = 40;
-
-  // Back-to-front drawing order
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const tile = cellsArr[y * w + x];
-      const elev = heights[y * w + x] || 0;
-      // Iso transform
-      const sx = ox + (x - y) * tileW * 0.5;
-      const sy = oy + (x + y) * tileH * 0.5 - elev * elevH;
-      const baseColor = TILE_COLORS[tile] || '#ff00ff';
-
-      // Top face
-      ctx.fillStyle = baseColor;
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.lineTo(sx + tileW * 0.5, sy + tileH * 0.5);
-      ctx.lineTo(sx, sy + tileH);
-      ctx.lineTo(sx - tileW * 0.5, sy + tileH * 0.5);
-      ctx.closePath();
-      ctx.fill();
-
-      if (elev > 0) {
-        // Left face (darker)
-        ctx.fillStyle = darkenColor(baseColor, 0.6);
-        ctx.beginPath();
-        ctx.moveTo(sx - tileW * 0.5, sy + tileH * 0.5);
-        ctx.lineTo(sx, sy + tileH);
-        ctx.lineTo(sx, sy + tileH + elev * elevH);
-        ctx.lineTo(sx - tileW * 0.5, sy + tileH * 0.5 + elev * elevH);
-        ctx.closePath();
-        ctx.fill();
-
-        // Right face (medium)
-        ctx.fillStyle = darkenColor(baseColor, 0.8);
-        ctx.beginPath();
-        ctx.moveTo(sx + tileW * 0.5, sy + tileH * 0.5);
-        ctx.lineTo(sx, sy + tileH);
-        ctx.lineTo(sx, sy + tileH + elev * elevH);
-        ctx.lineTo(sx + tileW * 0.5, sy + tileH * 0.5 + elev * elevH);
-        ctx.closePath();
-        ctx.fill();
-      }
-    }
-  }
-}
-
-function darkenColor(hex, factor) {
-  const r = parseInt(hex.slice(1,3), 16);
-  const g = parseInt(hex.slice(3,5), 16);
-  const b = parseInt(hex.slice(5,7), 16);
-  return '#' + Math.round(r*factor).toString(16).padStart(2,'0')
-            + Math.round(g*factor).toString(16).padStart(2,'0')
-            + Math.round(b*factor).toString(16).padStart(2,'0');
-}
-
-// Show metrics
-function showMetrics() {
-  const json = globalThis.__terrain_metrics;
-  if (!json) return;
-  try {
-    const m = JSON.parse(json);
-    metricsDiv.innerHTML =
-      `open: <span>${(m.open_ratio * 100).toFixed(1)}%</span> | ` +
-      `rooms: <span>${m.room_count}</span> | ` +
-      `connected: <span>${m.connected}</span> | ` +
-      `largest: <span>${m.largest_component}</span> | ` +
-      `dead_ends: <span>${m.dead_end_count}</span>`;
-  } catch {}
-}
-
-// Debounced generate
-function scheduleGenerate() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(generate, 100);
-}
-
-// Tab switching
-tabCanvas.addEventListener('click', () => {
-  tabCanvas.classList.add('active');
-  tabAscii.classList.remove('active');
-  canvas.style.display = 'block';
-  asciiPre.style.display = 'none';
-});
-tabAscii.addEventListener('click', () => {
-  tabAscii.classList.add('active');
-  tabCanvas.classList.remove('active');
-  canvas.style.display = 'none';
-  asciiPre.style.display = 'block';
-});
-
-// Layer slider for 3D mode
-document.getElementById('layer-slider').addEventListener('input', () => {
-  const w = parseInt(widthSlider.value);
-  const h = parseInt(heightSlider.value);
-  drawCanvas(w, h);
-});
-
-// Event listeners
-algoSelect.addEventListener('change', () => {
-  document.getElementById('layer-control').style.display = 'none';
-  document.getElementById('layer-slider').value = 0;
-  buildParams();
-  scheduleGenerate();
-});
-seedInput.addEventListener('change', scheduleGenerate);
-seedInput.addEventListener('input', scheduleGenerate);
-widthSlider.addEventListener('input', () => { widthVal.textContent = widthSlider.value; scheduleGenerate(); });
-heightSlider.addEventListener('input', () => { heightVal.textContent = heightSlider.value; scheduleGenerate(); });
-document.getElementById('rand-seed').addEventListener('click', () => {
-  seedInput.value = Math.floor(Math.random() * 999999);
-  scheduleGenerate();
-});
-
-// Init
-buildParams();
-</script>
-<script src="./web.js" onload="generate()"></script>
-</body>
-</html>
+export const ALGORITHMS: AlgorithmDef[] = CATEGORIES.flatMap(cat =>
+  cat.algorithms.map(a => ({ ...a, category: cat.name }))
+);

@@ -22,3 +22,12 @@ web:
 
 serve: web
   python3 -m http.server 8080
+
+js-build: web
+  cp _build/js/debug/build/web/web.js js/terrain.js
+  cp _build/js/debug/build/web/web.d.ts js/terrain.d.ts
+  cp _build/js/debug/build/web/moonbit.d.ts js/moonbit.d.ts
+  cd js && npx tsc
+
+js-bench: js-build
+  node js/dist/bench.js
