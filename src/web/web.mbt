@@ -1391,6 +1391,86 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
       )
       finish_quarter(r.grid, r.rooms.length())
     }
+    // === Quarter View 追加 (87-92) ===
+    87 => {
+      let r = @ziggurat.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          num_levels: pi(1, 4),
+          room_chance: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    88 => {
+      let r = @canyon.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          canyon_width: pi(1, 6),
+          num_bridges: pi(2, 3),
+          cave_chance: p(3, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    89 => {
+      let r = @harbor_town.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 6),
+          water_ratio: p(1, 0.3),
+          building_density: p(2, 0.6),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    90 => {
+      let r = @tower_dungeon.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          floors: pi(1, 4),
+          room_size: pi(2, 4),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    91 => {
+      let r = @volcanic_crater.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 8),
+          crater_ratio: p(1, 0.35),
+          vent_chance: p(2, 0.2),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
+    92 => {
+      let r = @amphitheater.generate(
+        {
+          width,
+          height,
+          max_height: pi(0, 6),
+          num_entrances: pi(1, 4),
+          arena_ratio: p(2, 0.3),
+        },
+        rng,
+      )
+      finish_quarter(r.grid, r.rooms.length())
+    }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)
       finish(grid, 0)

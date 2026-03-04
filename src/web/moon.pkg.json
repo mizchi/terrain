@@ -88,6 +88,12 @@
     "mizchi/terrain/layered_plateau",
     "mizchi/terrain/castle_gen",
     "mizchi/terrain/terraced_mines",
-    "mizchi/terrain/floating_islands"
+    "mizchi/terrain/floating_islands",
+    "mizchi/terrain/ziggurat",
+    "mizchi/terrain/canyon",
+    "mizchi/terrain/harbor_town",
+    "mizchi/terrain/tower_dungeon",
+    "mizchi/terrain/volcanic_crater",
+    "mizchi/terrain/amphitheater"
   ]
 }

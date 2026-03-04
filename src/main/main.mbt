@@ -384,4 +384,28 @@ fn main {
   let rng = @types.make_rng(seed)
   let fi = @floating_islands.generate(@floating_islands.FloatingIslandsConfig::default(), rng)
   run_algorithm("Floating Islands", fi.grid.to_grid2d(), fi.rooms.length())
+  // 88. Ziggurat Temple
+  let rng = @types.make_rng(seed)
+  let zg = @ziggurat.generate(@ziggurat.ZigguratConfig::default(), rng)
+  run_algorithm("Ziggurat Temple", zg.grid.to_grid2d(), zg.rooms.length())
+  // 89. Canyon Ravine
+  let rng = @types.make_rng(seed)
+  let cn = @canyon.generate(@canyon.CanyonConfig::default(), rng)
+  run_algorithm("Canyon Ravine", cn.grid.to_grid2d(), cn.rooms.length())
+  // 90. Harbor Town
+  let rng = @types.make_rng(seed)
+  let ht2 = @harbor_town.generate(@harbor_town.HarborTownConfig::default(), rng)
+  run_algorithm("Harbor Town", ht2.grid.to_grid2d(), ht2.rooms.length())
+  // 91. Tower Dungeon
+  let rng = @types.make_rng(seed)
+  let td = @tower_dungeon.generate(@tower_dungeon.TowerDungeonConfig::default(), rng)
+  run_algorithm("Tower Dungeon", td.grid.to_grid2d(), td.rooms.length())
+  // 92. Volcanic Crater
+  let rng = @types.make_rng(seed)
+  let vc = @volcanic_crater.generate(@volcanic_crater.VolcanicCraterConfig::default(), rng)
+  run_algorithm("Volcanic Crater", vc.grid.to_grid2d(), vc.rooms.length())
+  // 93. Amphitheater
+  let rng = @types.make_rng(seed)
+  let am = @amphitheater.generate(@amphitheater.AmphitheaterConfig::default(), rng)
+  run_algorithm("Amphitheater", am.grid.to_grid2d(), am.rooms.length())
 }
