@@ -902,6 +902,191 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
       )
       finish(r.grid, r.rooms.length())
     }
+    57 => {
+      let r = @worley.generate(
+        {
+          width,
+          height,
+          num_points: pi(0, 20),
+          threshold: p(1, 0.3),
+          use_manhattan: pi(2, 1),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    58 => {
+      let r = @ridged.generate(
+        {
+          width,
+          height,
+          octaves: pi(0, 4),
+          scale: p(1, 0.06),
+          persistence: p(2, 0.5),
+          lacunarity: p(3, 2.0),
+          threshold: p(4, 0.5),
+          sharpness: p(5, 2.0),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    59 => {
+      let r = @domain_warp.generate(
+        {
+          width,
+          height,
+          scale: p(0, 0.08),
+          warp_strength: p(1, 4.0),
+          warp_iterations: pi(2, 2),
+          threshold: p(3, 0.45),
+          octaves: pi(4, 3),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    60 => {
+      let r = @reaction_diffusion.generate(
+        {
+          width,
+          height,
+          iterations: pi(0, 3000),
+          du: p(1, 1.0),
+          dv: p(2, 0.5),
+          feed: p(3, 0.055),
+          kill: p(4, 0.062),
+          threshold: p(5, 0.2),
+          dt: p(6, 1.0),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    61 => {
+      let r = @river.generate(
+        {
+          width,
+          height,
+          num_drops: pi(0, 200),
+          noise_scale: p(1, 0.08),
+          height_threshold: p(2, 0.5),
+          river_width: pi(3, 1),
+          num_sources: pi(4, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rivers)
+    }
+    62 => {
+      let r = @crystal.generate(
+        {
+          width,
+          height,
+          num_seeds: pi(0, 8),
+          growth_steps: pi(1, 100),
+          axis_bias: p(2, 0.7),
+          connect_chance: p(3, 0.8),
+          min_crystal_size: pi(4, 4),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    63 => {
+      let r = @slime_mold.generate(
+        {
+          width,
+          height,
+          num_agents: pi(0, 200),
+          num_food: pi(1, 5),
+          steps: pi(2, 300),
+          sensor_angle: pi(3, 1),
+          sensor_distance: pi(4, 3),
+          deposit_amount: p(5, 1.0),
+          decay_rate: p(6, 0.1),
+          threshold: p(7, 0.5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    64 => {
+      let r = @lightning.generate(
+        {
+          width,
+          height,
+          num_bolts: pi(0, 3),
+          branch_chance: p(1, 0.3),
+          max_steps: pi(2, 500),
+          room_chance: p(3, 0.15),
+          room_min_size: pi(4, 3),
+          room_max_size: pi(5, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    65 => {
+      let r = @isaac.generate(
+        {
+          width,
+          height,
+          room_size: pi(0, 9),
+          num_rooms: pi(1, 12),
+          min_rooms: pi(2, 8),
+          max_dead_ends: pi(3, 4),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    66 => {
+      let r = @dead_cells.generate(
+        {
+          width,
+          height,
+          path_length: pi(0, 5),
+          max_branches: pi(1, 3),
+          branch_chance: p(2, 0.4),
+          shortcut_chance: p(3, 0.2),
+          biome_min_size: pi(4, 6),
+          biome_max_size: pi(5, 10),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    67 => {
+      let r = @penrose.generate(
+        {
+          width,
+          height,
+          num_lines: pi(0, 4),
+          floor_chance: p(1, 0.6),
+          room_chance: p(2, 0.1),
+          room_min_size: pi(3, 3),
+          room_max_size: pi(4, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    68 => {
+      let r = @delaunay.generate(
+        {
+          width,
+          height,
+          num_points: pi(0, 15),
+          room_min_size: pi(1, 3),
+          room_max_size: pi(2, 6),
+          corridor_width: pi(3, 1),
+          extra_edge_chance: p(4, 0.15),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)
       finish(grid, 0)

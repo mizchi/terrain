@@ -58,6 +58,18 @@
     "mizchi/terrain/pacman",
     "mizchi/terrain/tetromino",
     "mizchi/terrain/hex_grid",
-    "mizchi/terrain/city_block"
+    "mizchi/terrain/city_block",
+    "mizchi/terrain/worley",
+    "mizchi/terrain/ridged",
+    "mizchi/terrain/domain_warp",
+    "mizchi/terrain/reaction_diffusion",
+    "mizchi/terrain/river",
+    "mizchi/terrain/crystal",
+    "mizchi/terrain/slime_mold",
+    "mizchi/terrain/lightning",
+    "mizchi/terrain/isaac",
+    "mizchi/terrain/dead_cells",
+    "mizchi/terrain/penrose",
+    "mizchi/terrain/delaunay"
   ]
 }

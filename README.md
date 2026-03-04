@@ -1,6 +1,6 @@
 # terrain
 
-57 dungeon/terrain generation algorithms in [MoonBit](https://www.moonbitlang.com/).
+69 dungeon/terrain generation algorithms in [MoonBit](https://www.moonbitlang.com/).
 
 [Live Playground](https://mizchi.github.io/terrain/)
 
@@ -38,7 +38,7 @@
 | Gravity Collapse | `gravity_collapse` | `physics` `stacking` | Drop rooms from top, stack with gravity simulation |
 | Tetromino Packing | `tetromino` | `puzzle` `packing` | Pack tetris-shaped pieces into grid |
 
-### Cave / Organic (9)
+### Cave / Organic (16)
 
 | Name | Package | Tags | Description |
 |------|---------|------|-------------|
@@ -51,8 +51,14 @@
 | Erosion | `erosion` | `simulation` `water` | Hydraulic erosion simulation on heightmap |
 | Percolation | `percolation` | `math` `threshold` | Random fill with connectivity phase transition |
 | Ant Colony | `ant_colony` | `swarm` `emergent` | Pheromone-guided ant swarm carving paths |
+| Worley Noise | `worley` | `voronoi` `cellular` | Worley/cellular noise distance-based caves |
+| Ridged Multifractal | `ridged` | `noise` `sharp` | Ridged multifractal noise with sharp ridges |
+| Domain Warping | `domain_warp` | `noise` `distortion` | Noise with coordinate warping for organic shapes |
+| Reaction-Diffusion | `reaction_diffusion` | `simulation` `turing` | Gray-Scott reaction-diffusion pattern formation |
+| Slime Mold | `slime_mold` | `agent` `emergent` | Physarum-inspired slime mold agent simulation |
+| Lightning | `lightning` | `fractal` `branching` | Lightning bolt branching path generation |
 
-### Graph / Structure (8)
+### Graph / Structure (10)
 
 | Name | Package | Tags | Description |
 |------|---------|------|-------------|
@@ -64,6 +70,8 @@
 | Metroidvania | `metroidvania` | `zones` `gates` | Multi-zone layout with ability-gated connections |
 | Mission Graph | `mission_graph` | `narrative` `branching` | Mission-driven node graph with lock progression |
 | Ring Dungeon | `ring` | `loop` `shortcuts` | Ring corridor with rooms and Dark Souls shortcuts |
+| Binding of Isaac | `isaac` | `grid` `game-specific` | Grid-based room layout inspired by Isaac |
+| Dead Cells | `dead_cells` | `biome` `game-specific` | Branching biome path layout inspired by Dead Cells |
 
 ### Space Filling (4)
 
@@ -74,15 +82,17 @@
 | Spiral | `spiral` | `geometric` `archimedean` | Archimedean spiral with rooms at intervals |
 | Sierpinski Dungeon | `sierpinski` | `fractal` `recursive` | Sierpinski carpet recursive subdivision |
 
-### Terrain (3)
+### Terrain (5)
 
 | Name | Package | Tags | Description |
 |------|---------|------|-------------|
 | Diamond-Square | `diamond_square` | `heightmap` `fractal` | Fractal heightmap with configurable roughness |
 | Midpoint Displacement | `midpoint_displacement` | `heightmap` `layers` | Multi-layer midpoint displacement terrain |
 | Island/Archipelago | `island` | `islands` `bridges` | Circular islands connected by bridges |
+| River/Watershed | `river` | `simulation` `water` | Heightmap with hydraulic river carving |
+| Crystal Growth | `crystal` | `growth` `geometric` | Axis-aligned crystal seed growth |
 
-### Pattern / Tiling (6)
+### Pattern / Tiling (7)
 
 | Name | Package | Tags | Description |
 |------|---------|------|-------------|
@@ -92,8 +102,9 @@
 | L-System | `lsystem` | `grammar` `growth` | Lindenmayer system string rewriting paths |
 | Hex Grid | `hex_grid` | `hexagonal` `grid` | Hexagonal cell grid with corridor connections |
 | City Block | `city_block` | `urban` `streets` | Street grid with buildings and dead ends |
+| Penrose Tiling | `penrose` | `aperiodic` `geometric` | Penrose-inspired aperiodic tiling dungeon |
 
-### Hybrid (5)
+### Hybrid (6)
 
 | Name | Package | Tags | Description |
 |------|---------|------|-------------|
@@ -102,6 +113,7 @@
 | Space Colonization | `space_colonization` | `growth` `organic` | Attractor-based branching path growth |
 | Parametric Tunnelers | `tunneler` | `agent` `variable-width` | Multiple autonomous tunneling agents |
 | Platformer Level | `platformer` | `side-scroll` `platforms` | Side-scrolling level with platforms and ladders |
+| Delaunay + Gabriel | `delaunay` | `triangulation` `graph` | Delaunay triangulation with Gabriel graph pruning |
 
 ## Development
 

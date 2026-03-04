@@ -261,4 +261,52 @@ fn main {
   let rng = @types.make_rng(seed)
   let cb = @city_block.generate(@city_block.CityBlockConfig::default(), rng)
   run_algorithm("City Block", cb.grid, cb.rooms.length())
+  // 58. Worley Noise
+  let rng = @types.make_rng(seed)
+  let wn = @worley.generate(@worley.WorleyConfig::default(), rng)
+  run_algorithm("Worley Noise", wn.grid, wn.open_cells)
+  // 59. Ridged Multifractal
+  let rng = @types.make_rng(seed)
+  let rf = @ridged.generate(@ridged.RidgedConfig::default(), rng)
+  run_algorithm("Ridged Multifractal", rf.grid, rf.open_cells)
+  // 60. Domain Warping
+  let rng = @types.make_rng(seed)
+  let dw = @domain_warp.generate(@domain_warp.DomainWarpConfig::default(), rng)
+  run_algorithm("Domain Warping", dw.grid, dw.open_cells)
+  // 61. Reaction-Diffusion
+  let rng = @types.make_rng(seed)
+  let rd2 = @reaction_diffusion.generate(@reaction_diffusion.ReactionDiffusionConfig::default(), rng)
+  run_algorithm("Reaction-Diffusion", rd2.grid, rd2.open_cells)
+  // 62. River/Watershed
+  let rng = @types.make_rng(seed)
+  let rv = @river.generate(@river.RiverConfig::default(), rng)
+  run_algorithm("River/Watershed", rv.grid, rv.rivers)
+  // 63. Crystal Growth
+  let rng = @types.make_rng(seed)
+  let cr = @crystal.generate(@crystal.CrystalConfig::default(), rng)
+  run_algorithm("Crystal Growth", cr.grid, cr.rooms.length())
+  // 64. Slime Mold
+  let rng = @types.make_rng(seed)
+  let sm = @slime_mold.generate(@slime_mold.SlimeMoldConfig::default(), rng)
+  run_algorithm("Slime Mold", sm.grid, sm.rooms.length())
+  // 65. Lightning
+  let rng = @types.make_rng(seed)
+  let lg = @lightning.generate(@lightning.LightningConfig::default(), rng)
+  run_algorithm("Lightning", lg.grid, lg.rooms.length())
+  // 66. Binding of Isaac
+  let rng = @types.make_rng(seed)
+  let bi = @isaac.generate(@isaac.IsaacConfig::default(), rng)
+  run_algorithm("Binding of Isaac", bi.grid, bi.rooms.length())
+  // 67. Dead Cells
+  let rng = @types.make_rng(seed)
+  let dc = @dead_cells.generate(@dead_cells.DeadCellsConfig::default(), rng)
+  run_algorithm("Dead Cells", dc.grid, dc.rooms.length())
+  // 68. Penrose Tiling
+  let rng = @types.make_rng(seed)
+  let pt = @penrose.generate(@penrose.PenroseConfig::default(), rng)
+  run_algorithm("Penrose Tiling", pt.grid, pt.rooms.length())
+  // 69. Delaunay + Gabriel
+  let rng = @types.make_rng(seed)
+  let dl = @delaunay.generate(@delaunay.DelaunayConfig::default(), rng)
+  run_algorithm("Delaunay + Gabriel", dl.grid, dl.rooms.length())
 }
