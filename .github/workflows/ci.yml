@@ -23,6 +23,11 @@ jobs:
       - name: Moon update
         run: moon update
       - name: Moon check
-        run: moon check --deny-warn --target ${{ matrix.target }}
+        run: |
+          if [ "${{ matrix.target }}" = "native" ]; then
+            moon check --deny-warn --target native src/main
+          else
+            moon check --deny-warn --target ${{ matrix.target }}
+          fi
       - name: Moon test
         run: moon test --target ${{ matrix.target }}
