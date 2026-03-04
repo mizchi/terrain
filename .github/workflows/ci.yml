@@ -22,12 +22,10 @@ jobs:
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
       - name: Moon update
         run: moon update
+      - name: Remove JS-only packages for native
+        if: matrix.target == 'native'
+        run: rm -rf src/web
       - name: Moon check
-        run: |
-          if [ "${{ matrix.target }}" = "native" ]; then
-            moon check --deny-warn --target native src/main
-          else
-            moon check --deny-warn --target ${{ matrix.target }}
-          fi
+        run: moon check --deny-warn --target ${{ matrix.target }}
       - name: Moon test
         run: moon test --target ${{ matrix.target }}
