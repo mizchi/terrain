@@ -724,6 +724,184 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
       )
       finish(r.grid, r.open_cells)
     }
+    45 => {
+      let r = @ant_colony.generate(
+        {
+          width,
+          height,
+          num_ants: pi(0, 10),
+          steps_per_ant: pi(1, 200),
+          pheromone_strength: p(2, 1.0),
+          evaporation_rate: p(3, 0.1),
+          room_chance: p(4, 0.1),
+          room_min_size: pi(5, 3),
+          room_max_size: pi(6, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    46 => {
+      let r = @percolation.generate(
+        {
+          width,
+          height,
+          open_chance: p(0, 0.55),
+          widen: pi(1, 1),
+          min_component_size: pi(2, 10),
+        },
+        rng,
+      )
+      finish(r.grid, r.open_cells)
+    }
+    47 => {
+      let r = @gravity_collapse.generate(
+        {
+          width,
+          height,
+          num_rooms: pi(0, 12),
+          room_min_size: pi(1, 3),
+          room_max_size: pi(2, 7),
+          corridor_width: pi(3, 1),
+          gap: pi(4, 0),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    48 => {
+      let r = @sierpinski.generate(
+        {
+          width,
+          height,
+          depth: pi(0, 3),
+          corridor_width: pi(1, 1),
+          room_chance: p(2, 0.1),
+          room_min_size: pi(3, 3),
+          room_max_size: pi(4, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    49 => {
+      let r = @spiral.generate(
+        {
+          width,
+          height,
+          spacing: pi(0, 3),
+          corridor_width: pi(1, 1),
+          room_chance: p(2, 0.2),
+          room_min_size: pi(3, 3),
+          room_max_size: pi(4, 5),
+          num_turns: pi(5, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    50 => {
+      let r = @gosper.generate(
+        {
+          width,
+          height,
+          order: pi(0, 3),
+          corridor_width: pi(1, 1),
+          room_chance: p(2, 0.1),
+          room_min_size: pi(3, 3),
+          room_max_size: pi(4, 5),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    51 => {
+      let r = @platformer.generate(
+        {
+          width,
+          height,
+          num_platforms: pi(0, 15),
+          platform_min_len: pi(1, 3),
+          platform_max_len: pi(2, 8),
+          ladder_chance: p(3, 0.3),
+          gap_chance: p(4, 0.2),
+          water_level: pi(5, 2),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    52 => {
+      let r = @ring.generate(
+        {
+          width,
+          height,
+          ring_padding: pi(0, 4),
+          num_rooms: pi(1, 8),
+          room_min_size: pi(2, 4),
+          room_max_size: pi(3, 7),
+          num_shortcuts: pi(4, 2),
+          shortcut_width: pi(5, 1),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    53 => {
+      let r = @pacman.generate(
+        {
+          width,
+          height,
+          wall_density: p(0, 0.3),
+          corridor_width: pi(1, 2),
+          chamber_size: pi(2, 5),
+          symmetry: pi(3, 0),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    54 => {
+      let r = @tetromino.generate(
+        {
+          width,
+          height,
+          max_attempts: pi(0, 200),
+          connect_adjacent: pi(1, 1) != 0,
+          corridor_width: pi(2, 1),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    55 => {
+      let r = @hex_grid.generate(
+        {
+          width,
+          height,
+          hex_size: pi(0, 4),
+          open_chance: p(1, 0.5),
+          extra_wall_chance: p(2, 0.2),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
+    56 => {
+      let r = @city_block.generate(
+        {
+          width,
+          height,
+          block_size: pi(0, 6),
+          street_width: pi(1, 1),
+          building_chance: p(2, 0.7),
+          door_chance: p(3, 0.5),
+          remove_street_chance: p(4, 0.15),
+        },
+        rng,
+      )
+      finish(r.grid, r.rooms.length())
+    }
     _ => {
       let grid = @types.Grid2D::make(width, height, @types.Wall)
       finish(grid, 0)

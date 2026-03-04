@@ -46,6 +46,18 @@
     "mizchi/terrain/mission_graph",
     "mizchi/terrain/herringbone",
     "mizchi/terrain/lsystem",
-    "mizchi/terrain/marching_squares"
+    "mizchi/terrain/marching_squares",
+    "mizchi/terrain/ant_colony",
+    "mizchi/terrain/percolation",
+    "mizchi/terrain/gravity_collapse",
+    "mizchi/terrain/sierpinski",
+    "mizchi/terrain/spiral",
+    "mizchi/terrain/gosper",
+    "mizchi/terrain/platformer",
+    "mizchi/terrain/ring",
+    "mizchi/terrain/pacman",
+    "mizchi/terrain/tetromino",
+    "mizchi/terrain/hex_grid",
+    "mizchi/terrain/city_block"
   ]
 }

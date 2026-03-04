@@ -93,303 +93,405 @@
 </div>
 
 <script>
-const ALGORITHMS = [
-  { id: 0, name: "Drunkard's Walk", params: [
-    { name: "fill_ratio", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
-    { name: "max_steps", min: 500, max: 20000, default: 5000, step: 500 },
+const CATEGORIES = [
+  { name: "Maze", label: "Maze (迷路生成)", algorithms: [
+    { id: 10, name: "Maze (DFS)", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 21, name: "Eller's Maze", params: [
+      { name: "merge_chance", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 24, name: "Kruskal's Maze", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 26, name: "Binary Tree Maze", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 27, name: "Sidewinder Maze", params: [
+      { name: "carve_chance", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 25, name: "Recursive Division", params: [
+      { name: "min_room_size", min: 2, max: 8, default: 3, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 32, name: "Growing Tree", params: [
+      { name: "newest_weight", min: 0, max: 1, default: 1.0, step: 0.05 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 33, name: "Wilson's", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 34, name: "Aldous-Broder", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 35, name: "Hunt and Kill", params: [
+      { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 53, name: "Pac-Man Maze", params: [
+      { name: "wall_density", min: 0.1, max: 0.6, default: 0.3, step: 0.05 },
+      { name: "corridor_width", min: 1, max: 4, default: 2, step: 1 },
+      { name: "chamber_size", min: 3, max: 9, default: 5, step: 1 },
+      { name: "symmetry", min: 0, max: 1, default: 0, step: 1 },
+    ]},
   ]},
-  { id: 1, name: "Cellular Automata", params: [
-    { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
-    { name: "iterations", min: 1, max: 20, default: 5, step: 1 },
-    { name: "birth_threshold", min: 1, max: 8, default: 5, step: 1 },
-    { name: "survival_threshold", min: 1, max: 8, default: 4, step: 1 },
+  { name: "Room", label: "Room Placement (部屋配置)", algorithms: [
+    { id: 2, name: "BSP Tree", params: [
+      { name: "min_room_size", min: 2, max: 10, default: 4, step: 1 },
+      { name: "max_depth", min: 1, max: 8, default: 4, step: 1 },
+    ]},
+    { id: 3, name: "Poisson Disk", params: [
+      { name: "min_distance", min: 3, max: 15, default: 8, step: 1 },
+      { name: "room_min_size", min: 2, max: 8, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 12, default: 6, step: 1 },
+      { name: "max_attempts", min: 5, max: 100, default: 30, step: 5 },
+    ]},
+    { id: 11, name: "Rooms and Mazes", params: [
+      { name: "num_room_attempts", min: 10, max: 200, default: 50, step: 10 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
+      { name: "winding_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "extra_connector_chance", min: 0, max: 0.2, default: 0.02, step: 0.01 },
+    ]},
+    { id: 15, name: "Rogue Classic", params: [
+      { name: "grid_cols", min: 2, max: 5, default: 3, step: 1 },
+      { name: "grid_rows", min: 2, max: 5, default: 3, step: 1 },
+      { name: "room_min_ratio", min: 0.2, max: 0.8, default: 0.4, step: 0.05 },
+      { name: "room_max_ratio", min: 0.3, max: 1, default: 0.8, step: 0.05 },
+      { name: "skip_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
+    { id: 16, name: "Room Accretion", params: [
+      { name: "max_rooms", min: 3, max: 30, default: 12, step: 1 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 4, max: 15, default: 8, step: 1 },
+      { name: "max_attempts_per_room", min: 20, max: 500, default: 100, step: 20 },
+      { name: "first_room_size", min: 3, max: 12, default: 6, step: 1 },
+    ]},
+    { id: 17, name: "TinyKeep", params: [
+      { name: "num_rooms", min: 5, max: 60, default: 30, step: 5 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 4, max: 15, default: 9, step: 1 },
+      { name: "main_room_threshold", min: 3, max: 10, default: 5, step: 1 },
+      { name: "extra_edge_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+      { name: "separation_iterations", min: 10, max: 200, default: 50, step: 10 },
+    ]},
+    { id: 18, name: "Feature Growing", params: [
+      { name: "max_features", min: 5, max: 80, default: 30, step: 5 },
+      { name: "max_attempts", min: 50, max: 2000, default: 500, step: 50 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
+      { name: "corridor_min_len", min: 1, max: 8, default: 3, step: 1 },
+      { name: "corridor_max_len", min: 3, max: 15, default: 8, step: 1 },
+      { name: "room_weight", min: 1, max: 10, default: 3, step: 1 },
+      { name: "corridor_weight", min: 1, max: 10, default: 5, step: 1 },
+    ]},
+    { id: 23, name: "BFS Room Expansion", params: [
+      { name: "num_seeds", min: 3, max: 20, default: 10, step: 1 },
+      { name: "min_room_size", min: 4, max: 20, default: 8, step: 1 },
+      { name: "parallel_steps", min: 4, max: 30, default: 12, step: 1 },
+      { name: "serial_steps", min: 5, max: 50, default: 20, step: 1 },
+      { name: "door_chance", min: 0, max: 1, default: 0.8, step: 0.05 },
+      { name: "extra_door_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
+    { id: 31, name: "Prefab Assembly", params: [
+      { name: "num_prefabs", min: 3, max: 30, default: 12, step: 1 },
+      { name: "max_attempts", min: 20, max: 500, default: 100, step: 20 },
+    ]},
+    { id: 47, name: "Gravity Collapse", params: [
+      { name: "num_rooms", min: 3, max: 25, default: 12, step: 1 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+      { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "gap", min: 0, max: 3, default: 0, step: 1 },
+    ]},
+    { id: 54, name: "Tetromino Packing", params: [
+      { name: "max_attempts", min: 50, max: 500, default: 200, step: 50 },
+      { name: "connect_adjacent", min: 0, max: 1, default: 1, step: 1 },
+      { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
+    ]},
   ]},
-  { id: 2, name: "BSP Tree", params: [
-    { name: "min_room_size", min: 2, max: 10, default: 4, step: 1 },
-    { name: "max_depth", min: 1, max: 8, default: 4, step: 1 },
+  { name: "Cave", label: "Cave / Organic (洞窟・有機的)", algorithms: [
+    { id: 1, name: "Cellular Automata", params: [
+      { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "iterations", min: 1, max: 20, default: 5, step: 1 },
+      { name: "birth_threshold", min: 1, max: 8, default: 5, step: 1 },
+      { name: "survival_threshold", min: 1, max: 8, default: 4, step: 1 },
+    ]},
+    { id: 0, name: "Drunkard's Walk", params: [
+      { name: "fill_ratio", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
+      { name: "max_steps", min: 500, max: 20000, default: 5000, step: 500 },
+    ]},
+    { id: 19, name: "Noise Caves", params: [
+      { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "octaves", min: 1, max: 8, default: 4, step: 1 },
+      { name: "scale", min: 0.01, max: 0.3, default: 0.08, step: 0.01 },
+      { name: "persistence", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+    ]},
+    { id: 13, name: "DLA", params: [
+      { name: "target_fill", min: 0.1, max: 0.6, default: 0.35, step: 0.05 },
+      { name: "max_walk_steps", min: 100, max: 2000, default: 500, step: 100 },
+      { name: "num_seeds", min: 1, max: 10, default: 3, step: 1 },
+    ]},
+    { id: 44, name: "Marching Squares", params: [
+      { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "ca_iterations", min: 1, max: 20, default: 5, step: 1 },
+      { name: "birth_threshold", min: 1, max: 8, default: 5, step: 1 },
+      { name: "survival_threshold", min: 1, max: 8, default: 4, step: 1 },
+      { name: "smooth", min: 0, max: 1, default: 1, step: 1 },
+    ]},
+    { id: 14, name: "Worm Tunnels", params: [
+      { name: "num_worms", min: 1, max: 10, default: 4, step: 1 },
+      { name: "worm_length", min: 10, max: 200, default: 60, step: 10 },
+      { name: "worm_min_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "worm_max_width", min: 1, max: 6, default: 3, step: 1 },
+      { name: "turn_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "room_chance", min: 0, max: 0.3, default: 0.08, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+    ]},
+    { id: 36, name: "Erosion", params: [
+      { name: "num_drops", min: 100, max: 2000, default: 500, step: 100 },
+      { name: "erosion_strength", min: 0.01, max: 0.5, default: 0.1, step: 0.01 },
+      { name: "deposition_rate", min: 0.01, max: 0.3, default: 0.05, step: 0.01 },
+      { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+    ]},
+    { id: 46, name: "Percolation", params: [
+      { name: "open_chance", min: 0.3, max: 0.8, default: 0.55, step: 0.05 },
+      { name: "widen", min: 0, max: 3, default: 1, step: 1 },
+      { name: "min_component_size", min: 1, max: 50, default: 10, step: 1 },
+    ]},
+    { id: 45, name: "Ant Colony", params: [
+      { name: "num_ants", min: 2, max: 30, default: 10, step: 1 },
+      { name: "steps_per_ant", min: 50, max: 500, default: 200, step: 50 },
+      { name: "pheromone_strength", min: 0.1, max: 3.0, default: 1.0, step: 0.1 },
+      { name: "evaporation_rate", min: 0.01, max: 0.5, default: 0.1, step: 0.01 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
   ]},
-  { id: 3, name: "Poisson Disk", params: [
-    { name: "min_distance", min: 3, max: 15, default: 8, step: 1 },
-    { name: "room_min_size", min: 2, max: 8, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 12, default: 6, step: 1 },
-    { name: "max_attempts", min: 5, max: 100, default: 30, step: 5 },
+  { name: "Graph", label: "Graph / Structure (グラフ・構造)", algorithms: [
+    { id: 4, name: "Graph Grammar", params: [
+      { name: "num_rooms", min: 3, max: 15, default: 6, step: 1 },
+      { name: "num_locks", min: 0, max: 5, default: 2, step: 1 },
+      { name: "room_size", min: 3, max: 8, default: 4, step: 1 },
+    ]},
+    { id: 6, name: "Diablo", params: [
+      { name: "spine_length", min: 2, max: 12, default: 6, step: 1 },
+      { name: "branch_chance", min: 0, max: 1, default: 0.5, step: 0.05 },
+      { name: "loop_chance", min: 0, max: 1, default: 0.25, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 8, default: 3, step: 1 },
+      { name: "room_max_size", min: 4, max: 15, default: 9, step: 1 },
+      { name: "room_padding", min: 0, max: 5, default: 2, step: 1 },
+      { name: "max_placement_attempts", min: 10, max: 200, default: 50, step: 10 },
+    ]},
+    { id: 7, name: "Spelunky", params: [
+      { name: "grid_cols", min: 2, max: 8, default: 4, step: 1 },
+      { name: "grid_rows", min: 2, max: 8, default: 4, step: 1 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+      { name: "off_path_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+    { id: 8, name: "Arena Chain", params: [
+      { name: "num_arenas", min: 2, max: 10, default: 5, step: 1 },
+      { name: "arena_min_size", min: 5, max: 15, default: 7, step: 1 },
+      { name: "arena_max_size", min: 7, max: 25, default: 13, step: 1 },
+      { name: "corridor_width", min: 1, max: 5, default: 2, step: 1 },
+      { name: "side_room_chance", min: 0, max: 1, default: 0.4, step: 0.05 },
+      { name: "side_room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "side_room_max_size", min: 3, max: 8, default: 5, step: 1 },
+      { name: "max_placement_attempts", min: 10, max: 200, default: 50, step: 10 },
+    ]},
+    { id: 39, name: "Cyclic Dungeon", params: [
+      { name: "num_rooms", min: 3, max: 15, default: 8, step: 1 },
+      { name: "num_keys", min: 0, max: 5, default: 2, step: 1 },
+      { name: "cycle_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+      { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+    ]},
+    { id: 40, name: "Metroidvania", params: [
+      { name: "num_zones", min: 2, max: 8, default: 4, step: 1 },
+      { name: "rooms_per_zone", min: 2, max: 8, default: 4, step: 1 },
+      { name: "gate_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+      { name: "room_max_size", min: 4, max: 12, default: 8, step: 1 },
+    ]},
+    { id: 41, name: "Mission Graph", params: [
+      { name: "num_nodes", min: 4, max: 20, default: 10, step: 1 },
+      { name: "branch_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "lock_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
+      { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+      { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+    ]},
+    { id: 52, name: "Ring Dungeon", params: [
+      { name: "ring_padding", min: 2, max: 8, default: 4, step: 1 },
+      { name: "num_rooms", min: 3, max: 15, default: 8, step: 1 },
+      { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
+      { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
+      { name: "num_shortcuts", min: 0, max: 5, default: 2, step: 1 },
+      { name: "shortcut_width", min: 1, max: 3, default: 1, step: 1 },
+    ]},
   ]},
-  { id: 4, name: "Graph Grammar", params: [
-    { name: "num_rooms", min: 3, max: 15, default: 6, step: 1 },
-    { name: "num_locks", min: 0, max: 5, default: 2, step: 1 },
-    { name: "room_size", min: 3, max: 8, default: 4, step: 1 },
+  { name: "Curve", label: "Space Filling (空間充填曲線)", algorithms: [
+    { id: 30, name: "Hilbert Curve", params: [
+      { name: "order", min: 1, max: 6, default: 4, step: 1 },
+      { name: "corridor_width", min: 1, max: 4, default: 1, step: 1 },
+      { name: "room_chance", min: 0, max: 0.3, default: 0.08, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+    ]},
+    { id: 50, name: "Gosper Curve", params: [
+      { name: "order", min: 1, max: 5, default: 3, step: 1 },
+      { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "room_chance", min: 0, max: 0.3, default: 0.1, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+    ]},
+    { id: 49, name: "Spiral", params: [
+      { name: "spacing", min: 1, max: 6, default: 3, step: 1 },
+      { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+      { name: "num_turns", min: 1, max: 10, default: 5, step: 1 },
+    ]},
+    { id: 48, name: "Sierpinski Dungeon", params: [
+      { name: "depth", min: 1, max: 5, default: 3, step: 1 },
+      { name: "corridor_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "room_chance", min: 0, max: 0.3, default: 0.1, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+    ]},
   ]},
-  { id: 5, name: "WFC", params: [
-    { name: "max_retries", min: 1, max: 50, default: 10, step: 1 },
+  { name: "Terrain", label: "Terrain (地形生成)", algorithms: [
+    { id: 28, name: "Diamond-Square", params: [
+      { name: "roughness", min: 0.1, max: 1.5, default: 0.6, step: 0.05 },
+      { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
+      { name: "initial_range", min: 0.1, max: 3, default: 1.0, step: 0.1 },
+    ]},
+    { id: 37, name: "Midpoint Displacement", params: [
+      { name: "roughness", min: 0.1, max: 1.5, default: 0.5, step: 0.05 },
+      { name: "num_layers", min: 1, max: 8, default: 3, step: 1 },
+      { name: "threshold", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+    ]},
+    { id: 38, name: "Island/Archipelago", params: [
+      { name: "num_islands", min: 1, max: 15, default: 5, step: 1 },
+      { name: "island_min_radius", min: 1, max: 8, default: 3, step: 1 },
+      { name: "island_max_radius", min: 3, max: 15, default: 7, step: 1 },
+      { name: "bridge_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "fill_ratio", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
+    ]},
   ]},
-  { id: 6, name: "Diablo", params: [
-    { name: "spine_length", min: 2, max: 12, default: 6, step: 1 },
-    { name: "branch_chance", min: 0, max: 1, default: 0.5, step: 0.05 },
-    { name: "loop_chance", min: 0, max: 1, default: 0.25, step: 0.05 },
-    { name: "room_min_size", min: 2, max: 8, default: 3, step: 1 },
-    { name: "room_max_size", min: 4, max: 15, default: 9, step: 1 },
-    { name: "room_padding", min: 0, max: 5, default: 2, step: 1 },
-    { name: "max_placement_attempts", min: 10, max: 200, default: 50, step: 10 },
+  { name: "Pattern", label: "Pattern / Tiling (パターン・タイル)", algorithms: [
+    { id: 5, name: "WFC", params: [
+      { name: "max_retries", min: 1, max: 50, default: 10, step: 1 },
+    ]},
+    { id: 20, name: "Superimposition", params: [
+      { name: "num_stamps", min: 5, max: 100, default: 40, step: 5 },
+      { name: "rect_weight", min: 0, max: 10, default: 4, step: 1 },
+      { name: "circle_weight", min: 0, max: 10, default: 2, step: 1 },
+      { name: "corridor_h_weight", min: 0, max: 10, default: 3, step: 1 },
+      { name: "corridor_v_weight", min: 0, max: 10, default: 3, step: 1 },
+      { name: "stamp_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "stamp_max_size", min: 4, max: 15, default: 8, step: 1 },
+      { name: "corridor_min_len", min: 2, max: 8, default: 4, step: 1 },
+      { name: "corridor_max_len", min: 4, max: 20, default: 12, step: 1 },
+    ]},
+    { id: 42, name: "Herringbone Wang Tiles", params: [
+      { name: "tile_size", min: 3, max: 12, default: 6, step: 1 },
+      { name: "floor_ratio", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
+      { name: "corridor_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+    ]},
+    { id: 43, name: "L-System", params: [
+      { name: "iterations", min: 1, max: 8, default: 4, step: 1 },
+      { name: "segment_length", min: 1, max: 5, default: 2, step: 1 },
+      { name: "turn_angle", min: 1, max: 4, default: 2, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
+    ]},
+    { id: 55, name: "Hex Grid", params: [
+      { name: "hex_size", min: 2, max: 8, default: 4, step: 1 },
+      { name: "open_chance", min: 0.2, max: 0.8, default: 0.5, step: 0.05 },
+      { name: "extra_wall_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+    ]},
+    { id: 56, name: "City Block", params: [
+      { name: "block_size", min: 3, max: 12, default: 6, step: 1 },
+      { name: "street_width", min: 1, max: 3, default: 1, step: 1 },
+      { name: "building_chance", min: 0.2, max: 1, default: 0.7, step: 0.05 },
+      { name: "door_chance", min: 0, max: 1, default: 0.5, step: 0.05 },
+      { name: "remove_street_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+    ]},
   ]},
-  { id: 7, name: "Spelunky", params: [
-    { name: "grid_cols", min: 2, max: 8, default: 4, step: 1 },
-    { name: "grid_rows", min: 2, max: 8, default: 4, step: 1 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
-    { name: "off_path_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-  ]},
-  { id: 8, name: "Arena Chain", params: [
-    { name: "num_arenas", min: 2, max: 10, default: 5, step: 1 },
-    { name: "arena_min_size", min: 5, max: 15, default: 7, step: 1 },
-    { name: "arena_max_size", min: 7, max: 25, default: 13, step: 1 },
-    { name: "corridor_width", min: 1, max: 5, default: 2, step: 1 },
-    { name: "side_room_chance", min: 0, max: 1, default: 0.4, step: 0.05 },
-    { name: "side_room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "side_room_max_size", min: 3, max: 8, default: 5, step: 1 },
-    { name: "max_placement_attempts", min: 10, max: 200, default: 50, step: 10 },
-  ]},
-  { id: 9, name: "Voronoi Region", params: [
-    { name: "num_seeds", min: 3, max: 20, default: 8, step: 1 },
-    { name: "shrink", min: 0, max: 3, default: 1, step: 1 },
-    { name: "extra_edge_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
-  ]},
-  { id: 10, name: "Maze (DFS)", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 11, name: "Rooms and Mazes", params: [
-    { name: "num_room_attempts", min: 10, max: 200, default: 50, step: 10 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
-    { name: "winding_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-    { name: "extra_connector_chance", min: 0, max: 0.2, default: 0.02, step: 0.01 },
-  ]},
-  { id: 12, name: "Radial", params: [
-    { name: "num_rings", min: 2, max: 8, default: 4, step: 1 },
-    { name: "sectors_per_ring", min: 4, max: 16, default: 8, step: 1 },
-    { name: "ring_width", min: 2, max: 6, default: 3, step: 1 },
-    { name: "spoke_chance", min: 0, max: 1, default: 0.6, step: 0.05 },
-    { name: "gap_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
-  ]},
-  { id: 13, name: "DLA", params: [
-    { name: "target_fill", min: 0.1, max: 0.6, default: 0.35, step: 0.05 },
-    { name: "max_walk_steps", min: 100, max: 2000, default: 500, step: 100 },
-    { name: "num_seeds", min: 1, max: 10, default: 3, step: 1 },
-  ]},
-  { id: 14, name: "Worm Tunnels", params: [
-    { name: "num_worms", min: 1, max: 10, default: 4, step: 1 },
-    { name: "worm_length", min: 10, max: 200, default: 60, step: 10 },
-    { name: "worm_min_width", min: 1, max: 3, default: 1, step: 1 },
-    { name: "worm_max_width", min: 1, max: 6, default: 3, step: 1 },
-    { name: "turn_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-    { name: "room_chance", min: 0, max: 0.3, default: 0.08, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
-  ]},
-  { id: 15, name: "Rogue Classic", params: [
-    { name: "grid_cols", min: 2, max: 5, default: 3, step: 1 },
-    { name: "grid_rows", min: 2, max: 5, default: 3, step: 1 },
-    { name: "room_min_ratio", min: 0.2, max: 0.8, default: 0.4, step: 0.05 },
-    { name: "room_max_ratio", min: 0.3, max: 1, default: 0.8, step: 0.05 },
-    { name: "skip_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-  ]},
-  { id: 16, name: "Room Accretion", params: [
-    { name: "max_rooms", min: 3, max: 30, default: 12, step: 1 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 4, max: 15, default: 8, step: 1 },
-    { name: "max_attempts_per_room", min: 20, max: 500, default: 100, step: 20 },
-    { name: "first_room_size", min: 3, max: 12, default: 6, step: 1 },
-  ]},
-  { id: 17, name: "TinyKeep", params: [
-    { name: "num_rooms", min: 5, max: 60, default: 30, step: 5 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 4, max: 15, default: 9, step: 1 },
-    { name: "main_room_threshold", min: 3, max: 10, default: 5, step: 1 },
-    { name: "extra_edge_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-    { name: "separation_iterations", min: 10, max: 200, default: 50, step: 10 },
-  ]},
-  { id: 18, name: "Feature Growing", params: [
-    { name: "max_features", min: 5, max: 80, default: 30, step: 5 },
-    { name: "max_attempts", min: 50, max: 2000, default: 500, step: 50 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
-    { name: "corridor_min_len", min: 1, max: 8, default: 3, step: 1 },
-    { name: "corridor_max_len", min: 3, max: 15, default: 8, step: 1 },
-    { name: "room_weight", min: 1, max: 10, default: 3, step: 1 },
-    { name: "corridor_weight", min: 1, max: 10, default: 5, step: 1 },
-  ]},
-  { id: 19, name: "Noise Caves", params: [
-    { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
-    { name: "octaves", min: 1, max: 8, default: 4, step: 1 },
-    { name: "scale", min: 0.01, max: 0.3, default: 0.08, step: 0.01 },
-    { name: "persistence", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
-  ]},
-  { id: 20, name: "Superimposition", params: [
-    { name: "num_stamps", min: 5, max: 100, default: 40, step: 5 },
-    { name: "rect_weight", min: 0, max: 10, default: 4, step: 1 },
-    { name: "circle_weight", min: 0, max: 10, default: 2, step: 1 },
-    { name: "corridor_h_weight", min: 0, max: 10, default: 3, step: 1 },
-    { name: "corridor_v_weight", min: 0, max: 10, default: 3, step: 1 },
-    { name: "stamp_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "stamp_max_size", min: 4, max: 15, default: 8, step: 1 },
-    { name: "corridor_min_len", min: 2, max: 8, default: 4, step: 1 },
-    { name: "corridor_max_len", min: 4, max: 20, default: 12, step: 1 },
-  ]},
-  { id: 21, name: "Eller's Maze", params: [
-    { name: "merge_chance", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 22, name: "Parametric Tunnelers", params: [
-    { name: "num_tunnelers", min: 1, max: 8, default: 3, step: 1 },
-    { name: "tunnel_length", min: 20, max: 200, default: 80, step: 10 },
-    { name: "initial_width", min: 1, max: 4, default: 1, step: 1 },
-    { name: "max_width", min: 1, max: 8, default: 4, step: 1 },
-    { name: "turn_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
-    { name: "width_change_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
-    { name: "room_chance", min: 0, max: 0.3, default: 0.06, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
-  ]},
-  { id: 23, name: "BFS Room Expansion", params: [
-    { name: "num_seeds", min: 3, max: 20, default: 10, step: 1 },
-    { name: "min_room_size", min: 4, max: 20, default: 8, step: 1 },
-    { name: "parallel_steps", min: 4, max: 30, default: 12, step: 1 },
-    { name: "serial_steps", min: 5, max: 50, default: 20, step: 1 },
-    { name: "door_chance", min: 0, max: 1, default: 0.8, step: 0.05 },
-    { name: "extra_door_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-  ]},
-  { id: 24, name: "Kruskal's Maze", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 25, name: "Recursive Division", params: [
-    { name: "min_room_size", min: 2, max: 8, default: 3, step: 1 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 26, name: "Binary Tree Maze", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 27, name: "Sidewinder Maze", params: [
-    { name: "carve_chance", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 28, name: "Diamond-Square", params: [
-    { name: "roughness", min: 0.1, max: 1.5, default: 0.6, step: 0.05 },
-    { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
-    { name: "initial_range", min: 0.1, max: 3, default: 1.0, step: 0.1 },
-  ]},
-  { id: 29, name: "Space Colonization", params: [
-    { name: "num_attractors", min: 20, max: 200, default: 80, step: 10 },
-    { name: "kill_distance", min: 1, max: 5, default: 2, step: 1 },
-    { name: "influence_distance", min: 5, max: 30, default: 15, step: 1 },
-    { name: "step_size", min: 1, max: 3, default: 1, step: 1 },
-    { name: "corridor_width", min: 1, max: 4, default: 1, step: 1 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
-  ]},
-  { id: 30, name: "Hilbert Curve", params: [
-    { name: "order", min: 1, max: 6, default: 4, step: 1 },
-    { name: "corridor_width", min: 1, max: 4, default: 1, step: 1 },
-    { name: "room_chance", min: 0, max: 0.3, default: 0.08, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
-  ]},
-  { id: 31, name: "Prefab Assembly", params: [
-    { name: "num_prefabs", min: 3, max: 30, default: 12, step: 1 },
-    { name: "max_attempts", min: 20, max: 500, default: 100, step: 20 },
-  ]},
-  { id: 32, name: "Growing Tree", params: [
-    { name: "newest_weight", min: 0, max: 1, default: 1.0, step: 0.05 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 33, name: "Wilson's", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 34, name: "Aldous-Broder", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 35, name: "Hunt and Kill", params: [
-    { name: "room_chance", min: 0, max: 0.5, default: 0.12, step: 0.02 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 36, name: "Erosion", params: [
-    { name: "num_drops", min: 100, max: 2000, default: 500, step: 100 },
-    { name: "erosion_strength", min: 0.01, max: 0.5, default: 0.1, step: 0.01 },
-    { name: "deposition_rate", min: 0.01, max: 0.3, default: 0.05, step: 0.01 },
-    { name: "threshold", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
-  ]},
-  { id: 37, name: "Midpoint Displacement", params: [
-    { name: "roughness", min: 0.1, max: 1.5, default: 0.5, step: 0.05 },
-    { name: "num_layers", min: 1, max: 8, default: 3, step: 1 },
-    { name: "threshold", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
-  ]},
-  { id: 38, name: "Island/Archipelago", params: [
-    { name: "num_islands", min: 1, max: 15, default: 5, step: 1 },
-    { name: "island_min_radius", min: 1, max: 8, default: 3, step: 1 },
-    { name: "island_max_radius", min: 3, max: 15, default: 7, step: 1 },
-    { name: "bridge_width", min: 1, max: 3, default: 1, step: 1 },
-    { name: "fill_ratio", min: 0.1, max: 0.8, default: 0.4, step: 0.05 },
-  ]},
-  { id: 39, name: "Cyclic Dungeon", params: [
-    { name: "num_rooms", min: 3, max: 15, default: 8, step: 1 },
-    { name: "num_keys", min: 0, max: 5, default: 2, step: 1 },
-    { name: "cycle_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
-    { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
-  ]},
-  { id: 40, name: "Metroidvania", params: [
-    { name: "num_zones", min: 2, max: 8, default: 4, step: 1 },
-    { name: "rooms_per_zone", min: 2, max: 8, default: 4, step: 1 },
-    { name: "gate_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
-    { name: "room_max_size", min: 4, max: 12, default: 8, step: 1 },
-  ]},
-  { id: 41, name: "Mission Graph", params: [
-    { name: "num_nodes", min: 4, max: 20, default: 10, step: 1 },
-    { name: "branch_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-    { name: "lock_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
-    { name: "room_min_size", min: 3, max: 8, default: 4, step: 1 },
-    { name: "room_max_size", min: 4, max: 12, default: 7, step: 1 },
-  ]},
-  { id: 42, name: "Herringbone Wang Tiles", params: [
-    { name: "tile_size", min: 3, max: 12, default: 6, step: 1 },
-    { name: "floor_ratio", min: 0.1, max: 0.9, default: 0.5, step: 0.05 },
-    { name: "corridor_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
-  ]},
-  { id: 43, name: "L-System", params: [
-    { name: "iterations", min: 1, max: 8, default: 4, step: 1 },
-    { name: "segment_length", min: 1, max: 5, default: 2, step: 1 },
-    { name: "turn_angle", min: 1, max: 4, default: 2, step: 1 },
-    { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
-    { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
-    { name: "room_max_size", min: 3, max: 9, default: 5, step: 1 },
-  ]},
-  { id: 44, name: "Marching Squares", params: [
-    { name: "initial_fill", min: 0.1, max: 0.9, default: 0.45, step: 0.05 },
-    { name: "ca_iterations", min: 1, max: 20, default: 5, step: 1 },
-    { name: "birth_threshold", min: 1, max: 8, default: 5, step: 1 },
-    { name: "survival_threshold", min: 1, max: 8, default: 4, step: 1 },
-    { name: "smooth", min: 0, max: 1, default: 1, step: 1 },
+  { name: "Hybrid", label: "Hybrid (複合)", algorithms: [
+    { id: 9, name: "Voronoi Region", params: [
+      { name: "num_seeds", min: 3, max: 20, default: 8, step: 1 },
+      { name: "shrink", min: 0, max: 3, default: 1, step: 1 },
+      { name: "extra_edge_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
+    ]},
+    { id: 12, name: "Radial", params: [
+      { name: "num_rings", min: 2, max: 8, default: 4, step: 1 },
+      { name: "sectors_per_ring", min: 4, max: 16, default: 8, step: 1 },
+      { name: "ring_width", min: 2, max: 6, default: 3, step: 1 },
+      { name: "spoke_chance", min: 0, max: 1, default: 0.6, step: 0.05 },
+      { name: "gap_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
+    ]},
+    { id: 29, name: "Space Colonization", params: [
+      { name: "num_attractors", min: 20, max: 200, default: 80, step: 10 },
+      { name: "kill_distance", min: 1, max: 5, default: 2, step: 1 },
+      { name: "influence_distance", min: 5, max: 30, default: 15, step: 1 },
+      { name: "step_size", min: 1, max: 3, default: 1, step: 1 },
+      { name: "corridor_width", min: 1, max: 4, default: 1, step: 1 },
+      { name: "room_chance", min: 0, max: 0.5, default: 0.15, step: 0.05 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 8, default: 5, step: 1 },
+    ]},
+    { id: 22, name: "Parametric Tunnelers", params: [
+      { name: "num_tunnelers", min: 1, max: 8, default: 3, step: 1 },
+      { name: "tunnel_length", min: 20, max: 200, default: 80, step: 10 },
+      { name: "initial_width", min: 1, max: 4, default: 1, step: 1 },
+      { name: "max_width", min: 1, max: 8, default: 4, step: 1 },
+      { name: "turn_chance", min: 0, max: 1, default: 0.2, step: 0.05 },
+      { name: "width_change_chance", min: 0, max: 0.5, default: 0.1, step: 0.05 },
+      { name: "room_chance", min: 0, max: 0.3, default: 0.06, step: 0.02 },
+      { name: "room_min_size", min: 2, max: 6, default: 3, step: 1 },
+      { name: "room_max_size", min: 3, max: 12, default: 7, step: 1 },
+    ]},
+    { id: 51, name: "Platformer Level", params: [
+      { name: "num_platforms", min: 5, max: 30, default: 15, step: 1 },
+      { name: "platform_min_len", min: 2, max: 6, default: 3, step: 1 },
+      { name: "platform_max_len", min: 4, max: 15, default: 8, step: 1 },
+      { name: "ladder_chance", min: 0, max: 1, default: 0.3, step: 0.05 },
+      { name: "gap_chance", min: 0, max: 0.5, default: 0.2, step: 0.05 },
+      { name: "water_level", min: 0, max: 5, default: 2, step: 1 },
+    ]},
   ]},
 ];
+
+// Build flat lookup for dispatch
+const ALGO_MAP = {};
+CATEGORIES.forEach(cat => cat.algorithms.forEach(a => { a.category = cat.name; ALGO_MAP[a.id] = a; }));
 
 const TILE_COLORS = [
   '#deb887', // 0 Floor
@@ -420,17 +522,22 @@ const ctx = canvas.getContext('2d');
 
 let debounceTimer = null;
 
-// Populate algorithm dropdown
-ALGORITHMS.forEach(a => {
-  const opt = document.createElement('option');
-  opt.value = a.id;
-  opt.textContent = `${a.id}. ${a.name}`;
-  algoSelect.appendChild(opt);
+// Populate algorithm dropdown with optgroups
+CATEGORIES.forEach(cat => {
+  const group = document.createElement('optgroup');
+  group.label = cat.label;
+  cat.algorithms.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a.id;
+    opt.textContent = a.name;
+    group.appendChild(opt);
+  });
+  algoSelect.appendChild(group);
 });
 
 // Build parameter sliders for selected algorithm
 function buildParams() {
-  const algo = ALGORITHMS[algoSelect.value];
+  const algo = ALGO_MAP[algoSelect.value];
   paramsContainer.innerHTML = '';
   if (!algo.params.length) {
     paramsContainer.innerHTML = '<div style="color:#666;font-size:0.75rem">No parameters</div>';

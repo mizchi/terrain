@@ -213,4 +213,52 @@ fn main {
   let rng = @types.make_rng(seed)
   let ms = @marching_squares.generate(@marching_squares.MarchingSquaresConfig::default(), rng)
   run_algorithm("Marching Squares", ms.grid, ms.open_cells)
+  // 46. Ant Colony
+  let rng = @types.make_rng(seed)
+  let ac = @ant_colony.generate(@ant_colony.AntColonyConfig::default(), rng)
+  run_algorithm("Ant Colony", ac.grid, ac.rooms.length())
+  // 47. Percolation
+  let rng = @types.make_rng(seed)
+  let pc = @percolation.generate(@percolation.PercolationConfig::default(), rng)
+  run_algorithm("Percolation", pc.grid, pc.open_cells)
+  // 48. Gravity Collapse
+  let rng = @types.make_rng(seed)
+  let gc = @gravity_collapse.generate(@gravity_collapse.GravityCollapseConfig::default(), rng)
+  run_algorithm("Gravity Collapse", gc.grid, gc.rooms.length())
+  // 49. Sierpinski Dungeon
+  let rng = @types.make_rng(seed)
+  let sp = @sierpinski.generate(@sierpinski.SierpinskiConfig::default(), rng)
+  run_algorithm("Sierpinski Dungeon", sp.grid, sp.rooms.length())
+  // 50. Spiral
+  let rng = @types.make_rng(seed)
+  let sr = @spiral.generate(@spiral.SpiralConfig::default(), rng)
+  run_algorithm("Spiral", sr.grid, sr.rooms.length())
+  // 51. Gosper Curve
+  let rng = @types.make_rng(seed)
+  let gp = @gosper.generate(@gosper.GosperConfig::default(), rng)
+  run_algorithm("Gosper Curve", gp.grid, gp.rooms.length())
+  // 52. Platformer Level
+  let rng = @types.make_rng(seed)
+  let pl = @platformer.generate(@platformer.PlatformerConfig::default(), rng)
+  run_algorithm("Platformer Level", pl.grid, pl.rooms.length())
+  // 53. Ring Dungeon
+  let rng = @types.make_rng(seed)
+  let rn = @ring.generate(@ring.RingConfig::default(), rng)
+  run_algorithm("Ring Dungeon", rn.grid, rn.rooms.length())
+  // 54. Pac-Man Maze
+  let rng = @types.make_rng(seed)
+  let pm = @pacman.generate(@pacman.PacmanConfig::default(), rng)
+  run_algorithm("Pac-Man Maze", pm.grid, pm.rooms.length())
+  // 55. Tetromino Packing
+  let rng = @types.make_rng(seed)
+  let tt = @tetromino.generate(@tetromino.TetrominoConfig::default(), rng)
+  run_algorithm("Tetromino Packing", tt.grid, tt.rooms.length())
+  // 56. Hex Grid
+  let rng = @types.make_rng(seed)
+  let hx = @hex_grid.generate(@hex_grid.HexGridConfig::default(), rng)
+  run_algorithm("Hex Grid", hx.grid, hx.rooms.length())
+  // 57. City Block
+  let rng = @types.make_rng(seed)
+  let cb = @city_block.generate(@city_block.CityBlockConfig::default(), rng)
+  run_algorithm("City Block", cb.grid, cb.rooms.length())
 }

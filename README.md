@@ -1,54 +1,128 @@
 # terrain
 
-MoonBit によるダンジョン生成アルゴリズム集。32種のアルゴリズムを収録。
+57 dungeon/terrain generation algorithms in [MoonBit](https://www.moonbitlang.com/).
+
+[Live Playground](https://mizchi.github.io/terrain/)
 
 ## Algorithms
 
-| # | Package | Algorithm | Style |
-|---|---------|-----------|-------|
-| 1 | `drunkard` | Drunkard's Walk | ランダムウォーク洞窟 |
-| 2 | `cellular` | Cellular Automata | ライフゲーム風洞窟 |
-| 3 | `bsp` | BSP Tree | 二分空間分割 (Nethack風) |
-| 4 | `poisson` | Poisson Disk Sampling | ポアソン円盤配置 + MST接続 |
-| 5 | `graph_grammar` | Graph Grammar | グラフ文法による鍵・錠構造 |
-| 6 | `wfc` | Wave Function Collapse | 波動関数崩壊 (制約伝播タイル配置) |
-| 7 | `diablo` | Diablo-style | Diablo風スパイン+分岐+ループグラフ |
-| 8 | `spelunky` | Spelunky-style | Spelunky風グリッド上→下ランダムウォーク |
-| 9 | `arena_chain` | Arena Chain | Hades/Dead Cells風 大部屋ジグザグ接続 |
-| 10 | `voronoi` | Voronoi Region | Manhattan Voronoi分割 + MST |
-| 11 | `maze` | Maze (DFS) | 再帰バックトラッカー完全迷路 |
-| 12 | `rooms_and_mazes` | Rooms and Mazes | Bob Nystrom風 部屋+迷路+コネクタ |
-| 13 | `radial` | Radial | 同心円リング + 放射スポーク (Darkest Dungeon風) |
-| 14 | `dla` | DLA | 拡散律速凝集 (有機的洞窟) |
-| 15 | `worm` | Worm Tunnels | 複数ワームエージェント掘削 |
-| 16 | `rogue` | Rogue Classic | 初代Rogue風 3x3グリッド部屋配置 |
-| 17 | `accretion` | Room Accretion | Brogue風 壁接着による有機的成長 |
-| 18 | `tinykeep` | TinyKeep | TinyKeep風 散布+物理分離+三角分割+MST |
-| 19 | `feature_growing` | Feature Growing | Tyrant風 壁からフィーチャーを生やす |
-| 20 | `noise_caves` | Noise Caves | Perlin Noise風 閾値洞窟 (fBM) |
-| 21 | `superimpose` | Superimposition | 重ね打ち (オーバーラップ許容) |
-| 22 | `eller` | Eller's Maze | Eller法 行単位O(N)迷路 |
-| 23 | `tunneler` | Parametric Tunnelers | Cogmind風 自己変化トンネラーエージェント |
-| 24 | `bfs_rooms` | BFS Room Expansion | Red Blob Games風 BFS膨張ジグソー部屋 |
-| 25 | `kruskal` | Kruskal's Maze | Kruskal法 エッジシャッフル+Union-Find迷路 |
-| 26 | `recursive_division` | Recursive Division | 再帰分割 壁を置く逆アプローチ迷路 |
-| 27 | `binary_tree` | Binary Tree Maze | 二分木迷路 (北or西の2択) |
-| 28 | `sidewinder` | Sidewinder Maze | Sidewinder法 行単位ラン生成迷路 |
-| 29 | `diamond_square` | Diamond-Square | 中点変位法 高さマップ閾値洞窟 |
-| 30 | `space_colonization` | Space Colonization | 引力点ベース有機的分岐 (血管/樹木パターン) |
-| 31 | `hilbert` | Hilbert Curve | ヒルベルト曲線 空間充填曲線ダンジョン |
-| 32 | `prefab` | Prefab Assembly | テンプレート組み立て (T字路/十字路/L字等) |
+### Maze (11)
 
-## Usage
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Maze (DFS) | `maze` | `classic` `perfect-maze` | Recursive backtracker depth-first search |
+| Eller's Maze | `eller` | `classic` `row-by-row` | Row-by-row generation with set merging |
+| Kruskal's Maze | `kruskal` | `classic` `mst` | Minimum spanning tree randomized maze |
+| Binary Tree Maze | `binary_tree` | `classic` `simple` | Two-direction bias with diagonal tendency |
+| Sidewinder Maze | `sidewinder` | `classic` `row-by-row` | Horizontal runs with random vertical connections |
+| Recursive Division | `recursive_division` | `classic` `divide` | Recursive wall placement subdivision |
+| Growing Tree | `growing_tree` | `configurable` `perfect-maze` | Tunable between DFS and Prim's via weight |
+| Wilson's | `wilson` | `unbiased` `perfect-maze` | Loop-erased random walk for uniform spanning tree |
+| Aldous-Broder | `aldous_broder` | `unbiased` `perfect-maze` | Random walk visiting every cell exactly once |
+| Hunt and Kill | `hunt_and_kill` | `classic` `perfect-maze` | Walk until stuck, then scan for unvisited neighbor |
+| Pac-Man Maze | `pacman` | `symmetric` `arcade` | Bilaterally symmetric maze with central chamber |
+
+### Room Placement (11)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| BSP Tree | `bsp` | `partition` `balanced` | Binary space partition with rooms in leaves |
+| Poisson Disk | `poisson` | `sampling` `even-spacing` | Blue noise distributed room placement |
+| Rooms and Mazes | `rooms_and_mazes` | `hybrid` `connect` | Place rooms then fill gaps with maze corridors |
+| Rogue Classic | `rogue` | `grid` `retro` | Grid-based room layout inspired by original Rogue |
+| Room Accretion | `accretion` | `incremental` `organic` | Grow dungeon by adding rooms one at a time |
+| TinyKeep | `tinykeep` | `physics` `separation` | Random rooms with physics-based separation |
+| Feature Growing | `feature_growing` | `incremental` `corridors` | Grow by attaching rooms and corridors to exits |
+| BFS Room Expansion | `bfs_rooms` | `flood-fill` `organic` | Seed-based parallel flood fill room growing |
+| Prefab Assembly | `prefab` | `template` `modular` | Place predefined room templates randomly |
+| Gravity Collapse | `gravity_collapse` | `physics` `stacking` | Drop rooms from top, stack with gravity simulation |
+| Tetromino Packing | `tetromino` | `puzzle` `packing` | Pack tetris-shaped pieces into grid |
+
+### Cave / Organic (9)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Cellular Automata | `cellular` | `ca` `natural` | Conway-style birth/survival cave generation |
+| Drunkard's Walk | `drunkard` | `random-walk` `simple` | Random walker carving open space |
+| Noise Caves | `noise_caves` | `perlin` `continuous` | Value noise with octaves for smooth caves |
+| DLA | `dla` | `fractal` `aggregation` | Diffusion-limited aggregation particle sticking |
+| Marching Squares | `marching_squares` | `ca` `smooth` | Cellular automata with contour smoothing |
+| Worm Tunnels | `worm` | `agent` `tunneling` | Multiple directional worms carving passages |
+| Erosion | `erosion` | `simulation` `water` | Hydraulic erosion simulation on heightmap |
+| Percolation | `percolation` | `math` `threshold` | Random fill with connectivity phase transition |
+| Ant Colony | `ant_colony` | `swarm` `emergent` | Pheromone-guided ant swarm carving paths |
+
+### Graph / Structure (8)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Graph Grammar | `graph_grammar` | `formal` `lock-key` | Rule-based graph rewriting with locks and keys |
+| Diablo | `diablo` | `spine` `branching` | Linear spine with branching side paths and loops |
+| Spelunky | `spelunky` | `grid-path` `platformer` | Grid cells with guaranteed solution path |
+| Arena Chain | `arena_chain` | `boss-rooms` `linear` | Large arenas connected by narrow corridors |
+| Cyclic Dungeon | `cyclic_dungeon` | `loops` `lock-key` | Circular connectivity with key-gate puzzles |
+| Metroidvania | `metroidvania` | `zones` `gates` | Multi-zone layout with ability-gated connections |
+| Mission Graph | `mission_graph` | `narrative` `branching` | Mission-driven node graph with lock progression |
+| Ring Dungeon | `ring` | `loop` `shortcuts` | Ring corridor with rooms and Dark Souls shortcuts |
+
+### Space Filling (4)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Hilbert Curve | `hilbert` | `fractal` `order-n` | Hilbert space-filling curve as corridor backbone |
+| Gosper Curve | `gosper` | `fractal` `hexagonal` | Flowsnake L-system curve on hex-like grid |
+| Spiral | `spiral` | `geometric` `archimedean` | Archimedean spiral with rooms at intervals |
+| Sierpinski Dungeon | `sierpinski` | `fractal` `recursive` | Sierpinski carpet recursive subdivision |
+
+### Terrain (3)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Diamond-Square | `diamond_square` | `heightmap` `fractal` | Fractal heightmap with configurable roughness |
+| Midpoint Displacement | `midpoint_displacement` | `heightmap` `layers` | Multi-layer midpoint displacement terrain |
+| Island/Archipelago | `island` | `islands` `bridges` | Circular islands connected by bridges |
+
+### Pattern / Tiling (6)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| WFC | `wfc` | `constraint` `local-rules` | Wave Function Collapse tile solver |
+| Superimposition | `superimpose` | `stamp` `overlap` | Overlapping random shape stamps |
+| Herringbone Wang Tiles | `herringbone` | `tiling` `structured` | Herringbone pattern tile placement |
+| L-System | `lsystem` | `grammar` `growth` | Lindenmayer system string rewriting paths |
+| Hex Grid | `hex_grid` | `hexagonal` `grid` | Hexagonal cell grid with corridor connections |
+| City Block | `city_block` | `urban` `streets` | Street grid with buildings and dead ends |
+
+### Hybrid (5)
+
+| Name | Package | Tags | Description |
+|------|---------|------|-------------|
+| Voronoi Region | `voronoi` | `diagram` `regions` | Voronoi cell regions with edge corridors |
+| Radial | `radial` | `concentric` `rings` | Concentric rings with spokes and gaps |
+| Space Colonization | `space_colonization` | `growth` `organic` | Attractor-based branching path growth |
+| Parametric Tunnelers | `tunneler` | `agent` `variable-width` | Multiple autonomous tunneling agents |
+| Platformer Level | `platformer` | `side-scroll` `platforms` | Side-scrolling level with platforms and ladders |
+
+## Development
 
 ```bash
+# Install MoonBit
+curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+
 # Check
-moon check --deny-warn
+just check
 
 # Test
-moon test
+just test
 
-# Run (JS target)
-moon build --target js
-node _build/js/debug/build/main/main.js
+# Build web playground
+just web
+
+# Serve locally
+just serve
+# Open http://localhost:8080
 ```
+
+## License
+
+MIT
