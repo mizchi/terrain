@@ -15,3 +15,10 @@ run:
 
 fmt:
   moon fmt
+
+web:
+  moon build --target js src/web
+  cp _build/js/debug/build/web/web.js web.js
+
+serve: web
+  python3 -m http.server 8080
