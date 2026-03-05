@@ -1,5 +1,11 @@
 {
+  "warn-list": "-29",
   "is-main": true,
+  "targets": {
+    "web.mbt": ["js"],
+    "main_js.mbt": ["js"],
+    "main_stub.mbt": ["native", "wasm", "wasm-gc", "llvm"]
+  },
   "import": [
     "mizchi/terrain/types",
     "mizchi/terrain/drunkard",

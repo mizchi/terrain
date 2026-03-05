@@ -1753,6 +1753,6 @@ fn dispatch(algo_id : Int, seed : Int, width : Int, height : Int) -> String {
 }
 
 ///|
-fn main {
+pub fn install() -> Unit {
   js_export_generate(dispatch)
 }
